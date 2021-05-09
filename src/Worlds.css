@@ -24,6 +24,17 @@
     background-color: #f3f3f3;
 }
 
+.worlds-page .main-container .list-group .list-group-item input[type=text] {
+    display: none;
+    width: 200px;
+}
+
+.worlds-page .main-container .list-group .list-group-item button {
+    display: none;
+    margin-left: 10px;
+    margin-bottom: 4px;
+}
+
 .worlds-page .main-container .list-group .list-group-item .form-check {
     display: inline-block;
     float: right;

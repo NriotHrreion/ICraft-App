@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 
     next();
 });
-app.use("/maps", express.static(path.resolve("./src/worlds"), {
+app.use("/maps", express.static(worldsPath, {
     setHeaders: function(res, path, stat) {
         res.set("Access-Control-Allow-Origin", "*");
     }
@@ -58,7 +58,7 @@ app.post("/createWorld", (req, res) => {
 
     worldInfo.fileName = worldInfo.name +".cmworld";
     worldInfo.mapData = fs.readFileSync(path.join(path.resolve("./src"), "_empty.cmworld")).toString();
-    fs.writeFileSync(path.join(path.resolve("./src/worlds"), worldInfo.name +".cmworld"), worldInfo.mapData);
+    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), worldInfo.mapData);
     worldList.push(worldInfo);
 
     res.end();
@@ -69,9 +69,7 @@ app.post("/deleteWorld", (req, res) => {
 
     for(let i in worldList) {
         if(worldList[i] != undefined && worldList[i].name == name) {
-            fs.unlink(path.join(path.resolve("./src/worlds"), name +".cmworld"), (err) => {
-                //
-            });
+            fs.unlink(path.join(worldsPath, name +".cmworld"), () => {});
             worldList[i] = undefined;
         }
     }
@@ -87,10 +85,24 @@ app.post("/saveWorld", (req, res) => {
     };
 
     worldInfo.fileName = worldInfo.name +".cmworld";
-    fs.writeFileSync(path.join(path.resolve("./src/worlds"), worldInfo.name +".cmworld"), worldInfo.mapData);
+    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), worldInfo.mapData);
     // worldList.push(worldInfo);
 
     res.end();
+});
+
+app.post("/renameWorld", (req, res) => {
+    var oldname = req.body.oldname;
+    var newname = req.body.newname;
+
+    for(let i in worldList) {
+        if(worldList[i].name == oldname) {
+            worldList[i].name = req.body.newname;
+            break;
+        }
+    }
+
+    fs.rename(path.join(worldsPath, oldname +".cmworld"), path.join(worldsPath, newname +".cmworld"), () => {});
 });
 
 app.listen(3001);

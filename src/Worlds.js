@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListGroup, Button } from "react-bootstrap";
+import { ListGroup, Button, Form } from "react-bootstrap";
 import Axios from "axios";
 import Page from "./Page";
 import "./Worlds.css";
@@ -26,6 +26,9 @@ export default class Worlds extends Component {
     setDeleteMode() {
         var operateButton = document.getElementById("operate-btn");
         var deleteButton = document.getElementById("delete-btn");
+        var worldNameTexts = document.getElementById("worldList").getElementsByTagName("span");
+        var renameInputs = document.getElementById("worldList").getElementsByClassName("form-control");
+        var renameSubmits = document.getElementById("worldList").getElementsByTagName("button");
         var checkBoxes = document.getElementsByClassName("form-check-input");
 
         this.isDeleteMode = !this.isDeleteMode ? true : false;
@@ -33,6 +36,18 @@ export default class Worlds extends Component {
         operateButton.innerText = !this.isDeleteMode ? "管理存档" : "取消";
         deleteButton.style.display = !this.isDeleteMode ? "none" : "block";
         operateButton.blur();
+
+        for(let i = 0; i < worldNameTexts.length; i++) {
+            worldNameTexts[i].style.display = !this.isDeleteMode ? "block" : "none";
+        }
+
+        for(let i = 0; i < renameInputs.length; i++) {
+            renameInputs[i].style.display = !this.isDeleteMode ? "none" : "inline-block";
+        }
+
+        for(let i = 0; i < renameSubmits.length; i++) {
+            renameSubmits[i].style.display = !this.isDeleteMode ? "none" : "inline-block";
+        }
 
         for(let i = 0; i < checkBoxes.length; i++) {
             checkBoxes[i].style.display = !this.isDeleteMode ? "none" : "block";
@@ -55,6 +70,14 @@ export default class Worlds extends Component {
         }
 
         window.location.href = "http://"+ window.location.host +"/worlds";
+    }
+
+    renameWorld(oldname, newname) {
+        Axios.post("http://"+ window.location.hostname +":3001/renameWorld", "oldname="+ oldname +"&newname="+ newname, {
+            headers: {"Content-Type": "application/x-www-form-urlencoded"}
+        }).catch((err) => {
+            throw err;
+        });
     }
 
     render() {
@@ -85,13 +108,40 @@ export default class Worlds extends Component {
 
                 var listItem = document.createElement("div");
                 listItem.className = "list-group-item";
-                listItem.innerText = list[i].name;
-                listItem.title = "点击即可进入存档";
-                listItem.onclick = () => {
+                listItem.setAttribute("data-worldname", list[i].name);
+                listItem.onclick = (e) => {
                     if(!this.isDeleteMode) {
-                        window.location.href = "http://"+ window.location.host +"/client/?map="+ list[i].fileName;
+                        window.location.href = "http://"+ window.location.host +"/client/?map="+ e.target.getAttribute("data-worldname") +".cmworld";
                     }
                 };
+                var worldNameText = document.createElement("span");
+                worldNameText.innerText = list[i].name;
+                listItem.appendChild(worldNameText);
+                var renameInput = document.createElement("input");
+                renameInput.type = "text";
+                renameInput.className = "form-control";
+                renameInput.value = list[i].name;
+                renameInput.onkeyup = function(e) {
+                    this.value = this.value.replace(/[\/|\\|:|*|?|"|<|>|\|]/g, "");
+                };
+                listItem.appendChild(renameInput);
+                var renameSubmit = document.createElement("button");
+                renameSubmit.type = "button";
+                renameSubmit.className = "control-btn btn btn-warning";
+                renameSubmit.innerText = "重命名";
+                renameSubmit.setAttribute("data-worldname", list[i].name);
+                renameSubmit.onclick = (e) => {
+                    var items = document.getElementById("worldList").getElementsByClassName("list-group-item");
+                    var name = e.target.getAttribute("data-worldname");
+                    for(let i = 0; i < items.length; i++) {
+                        if(items[i].getAttribute("data-worldname") == name) {
+                            this.renameWorld(name, items[i].getElementsByClassName("form-control")[0].value);
+                            window.location.href = "http://"+ window.location.host +"/worlds";
+                            break;
+                        }
+                    }
+                };
+                listItem.appendChild(renameSubmit);
                 var checkBox = document.createElement("div");
                 checkBox.className = "form-check";
                 var checkBoxInput = document.createElement("input");
