@@ -1,0 +1,12 @@
+.home-page .main-container {
+    text-align: center;
+}
+
+.home-page .main-container button {
+    outline: none !important;
+    transition: background-color .3s;
+}
+
+.home-page .main-container button:hover {
+    background-color: #ebebeb;
+}

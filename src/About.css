@@ -1,0 +1,25 @@
+.about-page .main-container {
+    width: 700px;
+    margin: 0 auto;
+}
+
+.about-page .main-container * {
+    text-align: left;
+}
+
+.about-page .main-container h2 {
+    font-size: 20pt;
+    margin-bottom: 30px;
+}
+
+.about-page .main-container p {
+    padding-left: 20px;
+}
+
+.about-page .main-container a {
+    color: #288BEA;
+}
+
+.about-page .main-container a:hover {
+    color: #147CDD;
+}

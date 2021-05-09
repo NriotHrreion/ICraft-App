@@ -1,0 +1,35 @@
+.worlds-page .main-container .control-btn {
+    margin-bottom: 10px;
+    margin-right: 7px;
+    outline: none !important;
+}
+
+.worlds-page .main-container .delete-btn {
+    margin-right: 0;
+    float: right;
+    display: none;
+}
+
+.worlds-page .main-container .list-group {
+    width: 700px;
+    height: 210px;
+    overflow-y: auto;
+}
+
+.worlds-page .main-container .list-group .list-group-item {
+    cursor: pointer;
+}
+
+.worlds-page .main-container .list-group .list-group-item:hover {
+    background-color: #f3f3f3;
+}
+
+.worlds-page .main-container .list-group .list-group-item .form-check {
+    display: inline-block;
+    float: right;
+}
+
+.worlds-page .main-container .list-group .list-group-item .form-check input[type=checkbox] {
+    display: none;
+    outline: none;
+}

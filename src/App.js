@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import Home from "./Home";
+import Worlds from "./Worlds";
+import CreateWorld from "./CreateWorld";
+import About from "./About";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    if(window.location.pathname == "/") {
+        window.location.href = "/home"; // default page
+    }
+
+    return (
+        <Router>
+            <Route path="/home" component={Home}></Route>
+            <Route path="/worlds" component={Worlds}></Route>
+            <Route path="/create" component={CreateWorld}></Route>
+            <Route path="/about" component={About}></Route>
+        </Router>
+    );
 }
 
 export default App;
