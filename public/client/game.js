@@ -55,8 +55,12 @@ class Game {
             this.renderer.update();
         }, 1000 / this.fps);
 
-        if(window.location.search != "") {
+        if(window.location.search.indexOf("?map=") != -1) { // solo map mode
             this.loadLevel();
+        } else if(window.location.search.indexOf("?server=") != -1) { // server mode
+            var clientPluginScript = document.createElement("script");
+            clientPluginScript.src = "./plugins/client.js";
+            document.body.appendChild(clientPluginScript);
         }
 
         console.log("Craftmine Inited. fps: "+ this.fps +" <Game.init>");
@@ -136,11 +140,14 @@ class Game {
             case "$save":
                 this.saveLevel();
                 break;
-            case "$load":
-                this.loadLevel();
-                break;
+            // case "$load":
+            //     this.loadLevel();
+            //     break;
             case "$download":
+                // eslint-disable-next-line
                 download(this.canvas.toDataURL("image/png"));
+                break;
+            case "$send-message":
                 break;
             default:
                 this.setCurrentBlock(blockElem.getAttribute("data-block"));
@@ -163,13 +170,6 @@ class Game {
 
         arr_str = "["+ arr_str +"]";
 
-        // var filename = prompt("Please enter the filename: ");
-        // if(filename != null) {
-        //     // download("data:text/plain,["+ this.iconPath +"];"+ arr_str, filename == "" ? "level.cmworld" : filename+".cmworld", "text/plain");
-        //     console.log("Level Saved. <Game.saveLevel>");
-        //     console.log("Filename: "+ filename);
-        // }
-
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "http://"+ window.location.hostname +":3001/saveWorld");
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -178,7 +178,6 @@ class Game {
             alert("保存成功");
 
             console.log("Level Saved. <Game.saveLevel>");
-            console.log("Filename: "+ filename);
         };
     }
 
@@ -218,6 +217,30 @@ class Game {
             console.log("Level Loaded. <Game.loadLevel>");
             console.log("Level data: ", level);
         };
+    }
+
+    loadMap(mapData) {
+        var dataParts = mapData.split(";");
+        if(dataParts.length == 2) {
+            var icon = dataParts[0].replace("[", "").replace("]", "");
+            this.setIcon(icon);
+            var level = dataParts[1].replace("[", "").replace("]", "").split(",");
+        } else {
+            var level = mapData.replace("[", "").replace("]", "").split(",");
+        }
+
+        var num = 0;
+
+        for(let y = 0; y < this.renderer.map.length; y++) {
+            for(let x = 0; x < this.renderer.map[y].length; x++) {
+                if(level[num].indexOf("oak_door") != -1) {
+                    this.renderer.map[y][x] = new window.blocks["oak_door"](level[num].replace("oak_door_", ""));
+                } else {
+                    this.renderer.map[y][x] = new window.blocks[level[num]](this.renderer);
+                }
+                num++;
+            }
+        }
     }
 
     setCurrentBlock(blockName) {

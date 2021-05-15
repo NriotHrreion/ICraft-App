@@ -4,6 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const worldsPath = path.resolve("./src/worlds");
+const serverListPath = path.resolve("./src/_serverList.json");
+const userNamePath = path.resolve("./src/_username.txt");
 
 var app = express();
 var worldList = [];
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
 
     next();
 });
-app.use("/maps", express.static(path.resolve("./src/worlds"), {
+app.use("/maps", express.static(worldsPath, {
     setHeaders: function(res, path, stat) {
         res.set("Access-Control-Allow-Origin", "*");
     }
@@ -58,7 +60,7 @@ app.post("/createWorld", (req, res) => {
 
     worldInfo.fileName = worldInfo.name +".cmworld";
     worldInfo.mapData = fs.readFileSync(path.join(path.resolve("./src"), "_empty.cmworld")).toString();
-    fs.writeFileSync(path.join(path.resolve("./src/worlds"), worldInfo.name +".cmworld"), worldInfo.mapData);
+    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), worldInfo.mapData);
     worldList.push(worldInfo);
 
     res.end();
@@ -69,9 +71,7 @@ app.post("/deleteWorld", (req, res) => {
 
     for(let i in worldList) {
         if(worldList[i] != undefined && worldList[i].name == name) {
-            fs.unlink(path.join(path.resolve("./src/worlds"), name +".cmworld"), (err) => {
-                //
-            });
+            fs.unlink(path.join(worldsPath, name +".cmworld"), () => {});
             worldList[i] = undefined;
         }
     }
@@ -87,9 +87,94 @@ app.post("/saveWorld", (req, res) => {
     };
 
     worldInfo.fileName = worldInfo.name +".cmworld";
-    fs.writeFileSync(path.join(path.resolve("./src/worlds"), worldInfo.name +".cmworld"), worldInfo.mapData);
+    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), worldInfo.mapData);
     // worldList.push(worldInfo);
 
+    res.end();
+});
+
+app.post("/renameWorld", (req, res) => {
+    var oldname = req.body.oldname;
+    var newname = req.body.newname;
+
+    for(let i in worldList) {
+        if(worldList[i].name == oldname) {
+            worldList[i].name = newname;
+            break;
+        }
+    }
+
+    fs.rename(path.join(worldsPath, oldname +".cmworld"), path.join(worldsPath, newname +".cmworld"), () => {});
+});
+
+app.get("/getServerList", (req, res) => {
+    res.json({
+        list: JSON.parse(fs.readFileSync(serverListPath).toString())
+    });
+});
+
+app.post("/AddServer", (req, res) => {
+    var serverInfo = {
+        name: req.body.name,
+        ip: req.body.ip
+    };
+    var list = JSON.parse(fs.readFileSync(serverListPath).toString());
+    
+    list.push(serverInfo);
+    fs.writeFileSync(serverListPath, JSON.stringify(list));
+    
+    res.end();
+});
+
+app.post("/deleteServer", (req, res) => {
+    var name = req.body.name;
+    var list = JSON.parse(fs.readFileSync(serverListPath).toString());
+    var newList = [];
+
+    for(let i in list) {
+        if(list[i] != undefined && list[i].name == name) {
+            list[i] = undefined;
+        }
+    }
+
+    for(let i in list) {
+        if(list[i] != undefined) {
+            newList.push(list[i]);
+        }
+    }
+
+    fs.writeFileSync(serverListPath, JSON.stringify(newList));
+
+    res.end();
+});
+
+app.post("/renameServer", (req, res) => {
+    var oldname = req.body.oldname;
+    var newname = req.body.newname;
+    var list = JSON.parse(fs.readFileSync(serverListPath).toString());
+
+    for(let i in list) {
+        if(list[i].name == oldname) {
+            list[i].name = newname;
+            break;
+        }
+    }
+
+    fs.writeFileSync(serverListPath, JSON.stringify(list));
+    
+    res.end();
+});
+
+app.get("/getUserName", (req, res) => {
+    res.json({
+        name: fs.readFileSync(userNamePath).toString()
+    });
+});
+
+app.post("/setUserName", (req, res) => {
+    var userName = req.body.username;
+    fs.writeFileSync(userNamePath, userName.replace(/[ |-|\\|/|!|@|#|$|%|^|&|*|(|)]/g, ""));
+    
     res.end();
 });
 

@@ -24,11 +24,10 @@
             <span id="fps">fps: </span>&nbsp;
             <span id="cb">当前方块: </span>
             <button data-block="$music" class="control-btn">音乐</button>
-            <button data-block="$icon" class="control-btn">设置图标</button>
-            <button data-block="$plugin" class="control-btn">加载插件</button>
-            <button data-block="$reset" class="control-btn">重置</button>
+            <button data-block="$icon" class="control-btn" id="btn-icon">设置图标</button>
+            <button data-block="$plugin" class="control-btn" id="btn-plugin">加载插件</button>
+            <button data-block="$reset" class="control-btn" id="btn-reset">重置</button>
             <button data-block="$save" class="control-btn">保存</button>
-            <button data-block="$load" class="control-btn">载入</button>
             <button data-block="$download" class="control-btn">下载</button>
         </dir>
     </div>
@@ -37,6 +36,13 @@
         <input type="file" accept=".cmworld" id="loadInput">
         <input type="file" accept=".js" id="pluginInput">
     </div>
+    <dialog class="chatting-container" id="chat">
+        <div class="messages-container" id="chat-messages"></div>
+        <div class="input-container">
+            <input type="text" id="chat-input">
+            <button id="chat-send" data-block="$send-message">发送</button>
+        </div>
+    </dialog>
     <audio src="./sources/music.ogg" id="source:music" loop hidden></audio>
     <script src="./block.js"></script>
     <script src="./render.js"></script>
