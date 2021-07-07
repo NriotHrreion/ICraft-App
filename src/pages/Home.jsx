@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import Page from "../components/Page";
 import "./Home.css";
+import Background from "../static/background.png";
 
 export default class Home extends Component {
     render() {
         return (
             <Page title="主页" nonav className="home-page">
                 <div className="header-container">
-                    <h1>Craftmine App</h1>
-                    <p>By NriotHrreion</p>
+                    <h1>ICraft</h1>
+                    <p>Minecraft 2D</p>
                 </div>
                 <div className="main-container">
                     <ButtonGroup>
@@ -20,5 +21,12 @@ export default class Home extends Component {
                 </div>
             </Page>
         );
+    }
+
+    componentDidMount() {
+        document.body.style.backgroundImage = "url("+ Background +")";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundSize = "100% 100%";
+        document.body.style.backgroundAttachment = "fixed";
     }
 }

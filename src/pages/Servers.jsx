@@ -85,7 +85,7 @@ export default class Servers extends Component {
             <Page title="服务器列表" back="home" className="servers-page">
                 <div className="header-container">
                     <h1>服务器列表</h1>
-                    <p>查看已添加的Craftmine服务器</p>
+                    <p>查看已添加的ICraft服务器</p>
                 </div>
                 <div className="main-container">
                     <Button variant="success" href="/addServer" className="control-btn">添加服务器</Button>
@@ -110,14 +110,34 @@ export default class Servers extends Component {
                 listItem.className = "list-group-item";
                 listItem.setAttribute("data-servername", list[i].name);
                 listItem.setAttribute("data-serverip", list[i].ip);
-                listItem.onclick = (e) => {
-                    if(!this.isDeleteMode) {
-                        window.location.href = "http://"+ window.location.host +"/client/?server="+ e.target.getAttribute("data-serverip") +"&player="+ document.getElementById("userNameText").innerText;
+                var self = this;
+                listItem.onclick = function(e) {
+                    if(!self.isDeleteMode) {
+                        window.location.href = "http://"+ window.location.host +"/client/?server="+ this.getAttribute("data-serverip") +"&player="+ document.getElementById("userNameText").innerText;
                     }
                 };
                 var worldNameText = document.createElement("span");
-                worldNameText.innerText = list[i].name;
+                worldNameText.innerHTML = list[i].name + " - <span style=\"color:gray\">连接中...</span>";
+                worldNameText.id = list[i].name;
                 listItem.appendChild(worldNameText);
+                var ws = new WebSocket("ws://"+ list[i].ip);
+                ws.onopen = function() {
+                    this.send(JSON.stringify({
+                        type: "motd"
+                    }));
+                };
+                ws.onmessage = function(e) {
+                    var msg = JSON.parse(e.data);
+
+                    if(msg.type == "motd") {
+                        document.getElementById(list[i].name).innerHTML = list[i].name +" - <span style=\"color:gray\">"+ msg.data.motd +"</span>";
+                        this.close();
+                    }
+                };
+                ws.onerror = function() {
+                    document.getElementById(list[i].name).innerHTML = list[i].name +" - <span style=\"color:red\">无法连接到服务器</span>";
+                    this.close();
+                };
                 var renameInput = document.createElement("input");
                 renameInput.type = "text";
                 renameInput.className = "form-control";

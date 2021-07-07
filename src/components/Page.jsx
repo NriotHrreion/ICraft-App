@@ -40,7 +40,7 @@ export default class Page extends Component {
                 <div className="nav-container">
                     <Breadcrumb>
                         {this.backButton()}
-                        <Breadcrumb.Item active>Craftmine</Breadcrumb.Item>
+                        <Breadcrumb.Item active>ICraft</Breadcrumb.Item>
                         {this.props.nonav ? null : <Breadcrumb.Item active>{this.props.title}</Breadcrumb.Item>}
                         {this.props.nonav && this.props.secondTitle ? null : <Breadcrumb.Item active>{this.props.secondTitle}</Breadcrumb.Item>}
 
@@ -50,7 +50,7 @@ export default class Page extends Component {
                 </div>
                 {this.props.children}
                 <div className="footer-container">
-                    <p>Copyright &copy; NriotHrreion {new Date().getFullYear()}</p>
+                    <p id="copyright">Copyright &copy; NriotHrreion {new Date().getFullYear()}</p>
                 </div>
             </div>
         );
@@ -58,6 +58,11 @@ export default class Page extends Component {
 
     componentDidMount() {
         var userInfoElem = document.getElementById("userInfo");
+        var copyrightElem = document.getElementById("copyright");
+
+        if(this.props.title == "主页") {
+            copyrightElem.style.color = "white";
+        }
         
         this.getUserInfo().then((user) => {
             if(user.name == "*nouser*") {

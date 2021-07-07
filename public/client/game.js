@@ -1,5 +1,5 @@
 /**
- * **Craftmine**
+ * **ICraft**
  * 
  * @author NriotHrreion
  * @license MIT
@@ -31,7 +31,7 @@ class Game {
     init() {
         var self = this;
 
-        // this.initBackground();
+        this.initBackground();
         this.initTextures();
         this.initIcon();
 
@@ -63,7 +63,7 @@ class Game {
             document.body.appendChild(clientPluginScript);
         }
 
-        console.log("Craftmine Inited. fps: "+ this.fps +" <Game.init>");
+        console.log("ICraft Inited. fps: "+ this.fps +" <Game.init>");
     }
 
     initBackground() {

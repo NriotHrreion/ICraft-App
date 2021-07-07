@@ -23,7 +23,7 @@ class ExamplePlugin extends PluginBase {
             description: "This is an example plugin..."
         };
 
-        this.game; // Craftmine游戏对象
+        this.game; // ICraft游戏对象
         this.renderer; // 渲染对象
 
         this.init();

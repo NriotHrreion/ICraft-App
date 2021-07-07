@@ -94,7 +94,7 @@ class Render {
         this.game.canvas.width = this.game.canvas.width;
         this.game.canvas.height = this.game.canvas.height;
 
-        // this.game.initBackground();
+        this.game.initBackground();
     }
 
     clearData() {
@@ -109,7 +109,7 @@ class Render {
             this.map[i] = arr;
         }
         
-        // this.game.initBackground();
+        this.game.initBackground();
         console.log("Map Resetted. <Render.clearData>");
     }
 

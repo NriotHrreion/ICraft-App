@@ -1,6 +1,6 @@
 {
-  "name": "craftmine-app",
-  "version": "0.2.0",
+  "name": "icraft-app",
+  "version": "0.3.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -22,8 +22,8 @@
     "ws": "^7.4.5"
   },
   "scripts": {
-    "cm-server": "node server/index",
-    "server": "node server",
+    "ic-server": "node server/index",
+    "ic-launch": "node server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

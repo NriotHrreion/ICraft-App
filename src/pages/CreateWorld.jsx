@@ -32,7 +32,7 @@ export default class CreateWorld extends Component {
             <Page title="存档列表" secondTitle="创建存档" back="worlds" className="form-page">
                 <div className="header-container">
                     <h1>创建存档</h1>
-                    <p>一个新的Craftmine存档</p>
+                    <p>一个新的ICraft存档</p>
                 </div>
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>

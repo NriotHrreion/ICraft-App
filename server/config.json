@@ -1,6 +1,6 @@
 {
     "serverName": "Server",
-    "serverMotd": "A Craftmine Server",
+    "serverMotd": "An ICraft Server",
     "worldName": "world",
     "port": 7000
 }

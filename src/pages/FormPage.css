@@ -4,3 +4,42 @@
     float: right;
     outline: none !important;
 }
+
+.form-page .dropdown {
+    display: inline-block !important;
+    width: 150px;
+    margin: 10px;
+    margin-left: 0;
+}
+
+.form-page .dropdown button {
+    outline: none !important;
+}
+
+.form-page .dropdown .dropdown-menu {
+    font-size: 1.4rem;
+    padding: .5rem 0;
+    padding-top: 1px;
+    padding-bottom: 6px;
+}
+
+.form-page .dropdown .dropdown-menu a {
+    display: block;
+    color: #000;
+    margin: 5px;
+    margin-bottom: 0;
+    padding-left: 3px;
+}
+
+.form-page .dropdown .dropdown-menu a:hover {
+    background-color: #E9ECEF;
+    text-decoration: none;
+}
+
+.form-page .badge {
+    border: none;
+    border-radius: .25rem;
+    padding: .25em .4em;
+    font-size: 75%;
+    vertical-align: baseline;
+}

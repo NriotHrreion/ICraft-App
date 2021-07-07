@@ -85,7 +85,7 @@ export default class Worlds extends Component {
             <Page title="存档列表" back="home" className="worlds-page">
                 <div className="header-container">
                     <h1>存档列表</h1>
-                    <p>你所有的Craftmine存档</p>
+                    <p>你所有的ICraft存档</p>
                 </div>
                 <div className="main-container">
                     <Button variant="success" href="/create" className="control-btn">创建存档</Button>

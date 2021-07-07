@@ -1,12 +1,10 @@
-# Craftmine App
+# ICraft App
 
 By NriotHrreion
 
 ## 简介
 
-这个React应用是我之前写的[Craftmine](https://github.com/NriotHrreion/Craftmine)的存档管理器.
-
-如果有什么不行的可以告诉我.
+这是Minecraft的2D版本, 可以用来当画板用, 或者也可以拿来玩, 和别人一起联机
 
 ## 客户端使用
 
@@ -25,19 +23,13 @@ npm install
 3. 启动App
 
 ```cmd
-npm run start
-```
-
-4. 在另一个命令行窗口启动后端服务器
-
-```cmd
-npm run server
+npm run ic-launch
 ```
 
 5. 最后用浏览器进入
 
 ```
-http://your-domain.com:3000
+http://localhost:3000
 ```
 
 ## 服务端使用
@@ -53,7 +45,7 @@ git clone https://github.com/NriotHrreion/Craftmine-App.git
 ```json
 {
     "serverName": "Server", // 服务器名称
-    "serverMotd": "A Craftmine Server", // 服务器简介
+    "serverMotd": "An ICraft Server", // 服务器简介
     "worldName": "world", // 存档名称
     "port": 7000 // 服务器端口
 }
@@ -65,7 +57,7 @@ git clone https://github.com/NriotHrreion/Craftmine-App.git
 node index
 ```
 
-4. 在Craftmine客户端中添加服务器并进入即可
+4. 在ICraft客户端中添加服务器并进入即可
 
 ## LICENSE
 

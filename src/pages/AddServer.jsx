@@ -33,7 +33,7 @@ export default class AddServer extends Component {
             <Page title="服务器列表" secondTitle="添加服务器" back="servers" className="form-page">
                 <div className="header-container">
                     <h1>添加服务器</h1>
-                    <p>一个外部Craftmine服务器</p>
+                    <p>一个外部ICraft服务器</p>
                 </div>
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>

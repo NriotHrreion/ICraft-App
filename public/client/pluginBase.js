@@ -1,7 +1,7 @@
 /**
  * @class
  * @author NriotHrreion
- * @classdesc A base for the Craftmine's plugin
+ * @classdesc A base for the ICraft's plugin
  * 
  * @example
  * class ExamplePlugin extends PluginBase {
@@ -34,7 +34,7 @@ class PluginBase {
     }
     
     /**
-     * Add an event listener to **Craftmine**
+     * Add an event listener to **ICraft**
      * 
      * @param {"draw" | "blockChange" | "iconChange"} name Listener Name
      * @param {(e : {detail? : object})} callback Listener Callback
@@ -81,7 +81,7 @@ class PluginBase {
     }
 
     /**
-     * Register something to **Craftmine**
+     * Register something to **ICraft**
      * 
      * @param {"block" | "button"} type Type of Register Object
      * @param {*} obj Object

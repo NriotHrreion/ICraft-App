@@ -1,16 +1,18 @@
 const chalk = require("chalk");
+const nLogger = require("nriot-logger");
+
+nLogger.config({
+    pattern: "[{time}][{type}] $ {text}"
+});
 
 module.exports = {
     info: function(text) {
-        var time = new Date();
-        console.log(`[${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}] ${text}`);
+        nLogger.info(text);
     },
     message: function(playerName, text) {
-        var time = new Date();
-        console.log(`[${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}][CHAT][${chalk.yellow(playerName)}] ${text}`);
+        nLogger.info(`[${chalk.yellow(playerName)}] ${text}`);
     },
     error: function(text) {
-        var time = new Date();
-        console.log(`[${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}][ERROR] ${chalk.red(text)}`);
+        nLogger.error(text);
     }
 };

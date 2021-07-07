@@ -2,10 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
+const child_process = require("child_process");
 
 const worldsPath = path.resolve("./src/worlds");
 const serverListPath = path.resolve("./src/_serverList.json");
 const userNamePath = path.resolve("./src/_username.txt");
+const usedNamesPath = path.resolve("./src/_usednames.txt");
 
 var app = express();
 var worldList = [];
@@ -173,9 +175,30 @@ app.get("/getUserName", (req, res) => {
 
 app.post("/setUserName", (req, res) => {
     var userName = req.body.username;
-    fs.writeFileSync(userNamePath, userName.replace(/[ |-|\\|/|!|@|#|$|%|^|&|*|(|)]/g, ""));
-    
+    fs.writeFileSync(userNamePath, userName.replace(/[ |-|\\|/|!|@|#|$|%|^|&|;|*|(|)]/g, ""));
+
+    var usedNames = fs.readFileSync(usedNamesPath).toString().split(";");
+    var isUsed = false;
+    for(let i in usedNames) {
+        if(userName == usedNames[i]) {
+            isUsed = true;
+        }
+    }
+
+    if(!isUsed) {
+        usedNames.push(userName);
+        fs.writeFileSync(usedNamesPath, usedNames.join(";"));
+    }
+
     res.end();
 });
 
-app.listen(3001);
+app.get("/getUsedNameList", (req, res) => {
+    res.json({
+        list: fs.readFileSync(usedNamesPath).toString().split(";")
+    });
+});
+
+app.listen(3001, () => {
+    child_process.exec("react-scripts start");
+});

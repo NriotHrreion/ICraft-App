@@ -8,6 +8,7 @@ const config = JSON.parse(fs.readFileSync(path.resolve(__dirname +"/config.json"
 var wss = new WebSocket.Server({
     port: config.port
 });
+var isNewMap = false;
 var map = new Array(540 / 20).fill(0);
 
 for(let i in map) {
@@ -65,13 +66,22 @@ wss.on("connection", (ws) => {
                 logger.message(msg.data.playerName, msg.data.message);
                 sendChatMessage(msg.data.playerName, msg.data.message);
                 break;
+            case "motd":
+                wss.clients.forEach((client) => {
+                    client.send(JSON.stringify({
+                        type: "motd",
+                        data: {
+                            motd: config.serverMotd
+                        }
+                    }));
+                });
+                break;
         }
     });
 });
 
 wss.on("close", () => {
     logger.info("Server closed");
-    
 });
 logger.info("WebSocket prepared");
 
@@ -88,7 +98,17 @@ fs.exists(worldPath, (exists) => {
 logger.info("Server opened on localhost:"+ config.port);
 
 function getMapData() {
-    return fs.readFileSync(worldPath, "utf-8").toString();
+    var mapData;
+
+    try {
+        mapData = fs.readFileSync(worldPath, "utf-8").toString();
+        return mapData;
+    } catch {
+        fs.writeFileSync(worldPath, "[./sources/default_icon.png];[air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air,air]");
+        logger.info("Cannot find specified map file, generated a new one");
+        isNewMap = true;
+        return getMapData();
+    }
 }
 
 function loadMapData() {
@@ -110,6 +130,52 @@ function loadMapData() {
             map[y][x] = level[num];
             num++;
         }
+    }
+
+    // Generate new terrain
+    if(isNewMap) {
+        var mapHeight = map.length;
+        var mapWidth = map[0].length;
+        var terrainHeight = 8;
+
+        try {
+            for(var i = 0; i < mapWidth; i++) {
+                for(var j = terrainHeight; j > 0; j--) {
+                    // grass block
+                    setBlock(i, mapHeight - j, "grass_block");
+
+                    // stone
+                    if(j < terrainHeight - 2) {
+                        setBlock(i, mapHeight - j, "stone");
+                    }
+
+                    // tree
+                    // var treeM = getRandom(1, 30);
+                    // if(treeM == 5) {
+                    //     setBlock(i, mapHeight - terrainHeight - 1, "oak_sapling");
+                    // }
+                }
+
+                // bedrock
+                setBlock(i, mapHeight - 1, "bedrock");
+    
+                var rn = getRandom(1, 10);
+
+                if(rn <= 2) {
+                    terrainHeight -= 1;
+                } else if(rn > 2 && rn <= 8) {
+                    terrainHeight += 0;
+                } else if(rn > 8) {
+                    terrainHeight += 1;
+                }
+
+                // terrainHeight = terrainHeight + rn == 0 ? terrainHeight + 1 : terrainHeight + rn;
+            }
+        } catch {
+            //
+        }
+
+        isNewMap = false;
     }
 }
 
@@ -156,4 +222,8 @@ function sendChatMessage(playerName, message) {
             }
         }));
     });
+}
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
