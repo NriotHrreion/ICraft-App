@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React, { Component } from "react";
 import { Button, ListGroup } from "react-bootstrap";
 import Axios from "axios";
@@ -90,6 +91,7 @@ export default class Servers extends Component {
                 <div className="main-container">
                     <Button variant="success" href="/addServer" className="control-btn">添加服务器</Button>
                     <Button variant="success" onClick={() => this.setDeleteMode()} className="control-btn" id="operate-btn">管理服务器</Button>
+                    <Button variant="primary" onClick={() => window.location.reload()} className="control-btn">刷新</Button>
                     <Button variant="danger" onClick={() => this.deleteWorlds()} className="control-btn delete-btn" id="delete-btn">批量删除</Button>
                     
                     <ListGroup id="serverList"></ListGroup>
@@ -111,7 +113,7 @@ export default class Servers extends Component {
                 listItem.setAttribute("data-servername", list[i].name);
                 listItem.setAttribute("data-serverip", list[i].ip);
                 var self = this;
-                listItem.onclick = function(e) {
+                listItem.onclick = function() {
                     if(!self.isDeleteMode) {
                         window.location.href = "http://"+ window.location.host +"/client/?server="+ this.getAttribute("data-serverip") +"&player="+ document.getElementById("userNameText").innerText;
                     }

@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 /**
  * @class
  * @author NriotHrreion

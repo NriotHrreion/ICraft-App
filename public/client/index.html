@@ -27,12 +27,19 @@
             <button data-block="$icon" class="control-btn" id="btn-icon">设置图标</button>
             <button data-block="$plugin" class="control-btn" id="btn-plugin">加载插件</button>
             <button data-block="$reset" class="control-btn" id="btn-reset">重置</button>
+            <button data-block="$chat" class="control-btn">聊天栏</button>
             <button data-block="$save" class="control-btn">保存</button>
             <button data-block="$download" class="control-btn">下载</button>
         </dir>
     </div>
     <div class="assets" style="display: none">
         <img src="./textures/oak_door_bottom.png" id="texture:oak_door_bottom">
+        <img src="./textures/stand-left.png" id="texture:player_stand_left">
+        <img src="./textures/stand-right.png" id="texture:player_stand_right">
+        <img src="./textures/walking-left-1.png" id="texture:player_walking_left_1">
+        <img src="./textures/walking-left-2.png" id="texture:player_walking_left_2">
+        <img src="./textures/walking-right-1.png" id="texture:player_walking_right_1">
+        <img src="./textures/walking-right-2.png" id="texture:player_walking_right_2">
         <input type="file" accept=".cmworld" id="loadInput">
         <input type="file" accept=".js" id="pluginInput">
     </div>
@@ -46,6 +53,7 @@
     <audio src="./sources/music.ogg" id="source:music" loop hidden></audio>
     <script src="./block.js"></script>
     <script src="./render.js"></script>
+    <script src="./command.js"></script>
     <script src="./game.js"></script>
     <script src="./main.js"></script>
 </body>

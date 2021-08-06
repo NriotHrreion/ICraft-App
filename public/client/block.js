@@ -7,6 +7,8 @@ class BlockStone {
         this.blockName = "stone";
     }
 
+    update() {}
+    
     static getName() {
         return "stone";
     }
@@ -17,12 +19,23 @@ class BlockStone {
 }
 
 class BlockSand {
-    constructor(renderer) {
+    constructor(renderer, x, y) {
         this.color = "#e5c07b";
         this.texture = "texture:sand";
         this.blockName = "sand";
+        this.renderer = renderer;
+        this.posX = x;
+        this.posY = y;
     }
 
+    update() {
+        var map = this.renderer.map;
+        if(map[this.posY + 1][this.posX].blockName == "air") {
+            this.renderer.map[this.posY + 1][this.posX] = new BlockSand(this.renderer, this.posX, this.posY + 1);
+            this.renderer.map[this.posY][this.posX] = new BlockAir(this.renderer);
+        }
+    }
+    
     static getName() {
         return "sand";
     }
@@ -39,6 +52,8 @@ class BlockDirt {
         this.blockName = "dirt";
     }
 
+    update() {}
+    
     static getName() {
         return "dirt";
     }
@@ -49,12 +64,24 @@ class BlockDirt {
 }
 
 class BlockGrassBlock {
-    constructor(renderer) {
+    constructor(renderer, x, y) {
         this.color = "#623408";
         this.texture = "texture:grass_block";
         this.blockName = "grass_block";
+        this.renderer = renderer;
+        this.posX = x;
+        this.posY = y;
     }
 
+    update() {
+        var map = this.renderer.map;
+        var topBlock = map[this.posY - 1][this.posX];
+
+        if(topBlock.blockName != "air" && topBlock.blockName != "oak_sapling") {
+            this.renderer.map[this.posY][this.posX] = new BlockDirt(this.renderer, this.posX, this.posY);
+        }
+    }
+    
     static getName() {
         return "grass_block";
     }
@@ -71,6 +98,8 @@ class BlockOakLog {
         this.blockName = "oak_log";
     }
 
+    update() {}
+    
     static getName() {
         return "oak_log";
     }
@@ -87,6 +116,8 @@ class BlockOakPlanks {
         this.blockName = "oak_planks";
     }
 
+    update() {}
+    
     static getName() {
         return "oak_planks";
     }
@@ -97,24 +128,27 @@ class BlockOakPlanks {
 }
 
 class BlockOakDoor {
-    constructor(part) {
+    constructor(part, renderer, x, y) {
         this.color = "#623408";
-        this.texture = "";
-        this.blockName = "";
+        this.texture = "texture:oak_door_"+ part;
+        this.blockName = "oak_door_"+ part;
         this.part = part;
-
-        switch(part) {
-            case "top":
-                this.texture = "texture:oak_door_top";
-                this.blockName = "oak_door_top";
-                break;
-            case "bottom":
-                this.texture = "texture:oak_door_bottom";
-                this.blockName = "oak_door_bottom";
-                break;
-        }
+        this.renderer = renderer;
+        this.posX = x;
+        this.posY = y;
     }
 
+    update() {
+        var map = this.renderer.map;
+        var topBlock = map[this.posY - 1][this.posX];
+
+        if(topBlock.blockName == "air" && this.part == "bottom") {
+            this.renderer.map[this.posY - 1][this.posX] = new BlockOakDoor("top", this.renderer, this.posX, this.posY);
+        } else if(((topBlock.blockName != "air" && !(topBlock instanceof BlockOakDoor)) || topBlock.blockName == "oak_door_bottom") && this.part == "bottom") {
+            this.renderer.map[this.posY][this.posX] = new BlockAir(this.renderer);
+        }
+    }
+    
     static getName() {
         return "oak_door";
     }
@@ -125,12 +159,22 @@ class BlockOakDoor {
 }
 
 class BlockOakSapling {
-    constructor() {
+    constructor(renderer, x, y) {
         this.color = "#623408";
         this.texture = "texture:oak_sapling";
         this.blockName = "oak_sapling";
+        this.renderer = renderer;
+        this.posX = x;
+        this.posY = y;
     }
 
+    update() {
+        var map = this.renderer.map;
+        if(map[this.posY + 1][this.posX].blockName != "grass_block") {
+            this.renderer.map[this.posY][this.posX] = new BlockAir(this.renderer);
+        }
+    }
+    
     static getName() {
         return "oak_sapling";
     }
@@ -147,6 +191,8 @@ class BlockGlass {
         this.blockName = "glass";
     }
 
+    update() {}
+    
     static getName() {
         return "glass";
     }
@@ -163,6 +209,8 @@ class BlockStoneBricks {
         this.blockName = "stone_bricks";
     }
 
+    update() {}
+    
     static getName() {
         return "stone_bricks";
     }
@@ -179,6 +227,8 @@ class BlockCraftingTable {
         this.blockName = "crafting_table";
     }
 
+    update() {}
+    
     static getName() {
         return "crafting_table";
     }
@@ -195,6 +245,8 @@ class BlockFurnace {
         this.blockName = "furnace";
     }
 
+    update() {}
+    
     static getName() {
         return "furnace";
     }
@@ -211,6 +263,8 @@ class BlockChest {
         this.blockName = "chest";
     }
 
+    update() {}
+    
     static getName() {
         return "chest";
     }
@@ -227,6 +281,8 @@ class BlockObsidian {
         this.blockName = "obsidian";
     }
 
+    update() {}
+    
     static getName() {
         return "obsidian";
     }
@@ -243,6 +299,8 @@ class BlockBedrock {
         this.blockName = "bedrock";
     }
 
+    update() {}
+    
     static getName() {
         return "bedrock";
     }
@@ -258,6 +316,8 @@ class BlockAir {
         this.blockName = "air";
     }
 
+    update() {}
+    
     static getName() {
         return "air";
     }

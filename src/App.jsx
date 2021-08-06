@@ -7,6 +7,7 @@ import CreateWorld from "./pages/CreateWorld";
 import Servers from "./pages/Servers";
 import AddServer from "./pages/AddServer";
 import About from "./pages/About";
+import License from "./pages/License";
 
 function App() {
     if(window.location.pathname == "/") {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/servers" component={Servers}></Route>
             <Route path="/addServer" component={AddServer}></Route>
             <Route path="/about" component={About}></Route>
+            <Route path="/license" component={License}></Route>
         </Router>
     );
 }

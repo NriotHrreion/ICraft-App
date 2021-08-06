@@ -83,6 +83,9 @@ export default class Page extends Component {
             editNameButton.type = "button";
             editNameButton.className = "link-btn btn btn-link";
             editNameButton.style.float = "right";
+            if(this.props.title == "注册") {
+                editNameButton.style.display = "none";
+            }
             editNameButton.onclick = () => {
                 window.location.href = "http://"+ window.location.host +"/signIn";
             };

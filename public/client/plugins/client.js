@@ -7,14 +7,14 @@ class MutiplayerClientPlugin extends PluginBase {
             description: "For mutiplayer (By NriotHrreion)"
         };
 
-        this.params = window.location.search.split("&");
+        this.params = window.location.search.replace("?", "").split("&");
         this.playerName = this.params[1].replace("player=", "");
-        this.ws = new WebSocket("ws://"+ this.params[0].replace("?server=", ""));
+        this.ws = new WebSocket("ws://"+ this.params[0].replace("server=", ""));
         /** @type {HTMLDialogElement} */
-        this.chatContainer = document.getElementById("chat");
-        this.messagesContainer = document.getElementById("chat-messages");
-        this.chatInput = document.getElementById("chat-input");
-        this.chatSendButton = document.getElementById("chat-send");
+        this.chatContainer = this.game.chatContainer;
+        this.messagesContainer = this.game.messagesContainer;
+        this.chatInput = this.game.chatInput;
+        this.chatSendButton = this.game.chatSendButton;
         this.isChatting = false;
         this.isError = false;
 
@@ -65,18 +65,6 @@ class MutiplayerClientPlugin extends PluginBase {
     }
 
     initEvents() {
-        this.register("button", {
-            name: "聊天栏",
-            onclick: () => {
-                if(this.isChatting) {
-                    this.chatContainer.close();
-                    this.isChatting = false;
-                } else {
-                    this.chatContainer.show();
-                    this.isChatting = true;
-                }
-            }
-        });
         this.register("button", {
             name: "退出服务器",
             onclick: () => {

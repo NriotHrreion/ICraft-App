@@ -45,7 +45,7 @@ export default class SignIn extends Component {
             <Page title="注册" back="home" className="form-page">
                 <div className="header-container">
                     <h1>注册</h1>
-                    <p>注册一个用户名</p>
+                    <p>注册或设置一个用户名</p>
                 </div>
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>

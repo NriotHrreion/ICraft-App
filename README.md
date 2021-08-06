@@ -1,6 +1,6 @@
 # ICraft App
 
-By NriotHrreion
+By NriotHrreion; Using [React.js](http://reactjs.org)
 
 ## 简介
 
@@ -11,10 +11,10 @@ By NriotHrreion
 1. 下载源码到本地
 
 ```cmd
-git clone https://github.com/NriotHrreion/Craftmine-App.git
+git clone https://github.com/NriotHrreion/ICraft-App.git
 ```
 
-2. 下载依赖
+2. 进入源码根目录下载依赖
 
 ```cmd
 npm install
@@ -26,7 +26,7 @@ npm install
 npm run ic-launch
 ```
 
-5. 最后用浏览器进入
+4. 最后用浏览器进入
 
 ```
 http://localhost:3000
@@ -37,7 +37,7 @@ http://localhost:3000
 1. 下载源码到本地
 
 ```cmd
-git clone https://github.com/NriotHrreion/Craftmine-App.git
+git clone https://github.com/NriotHrreion/ICraft-App.git
 ```
 
 2. 在`server/config.json`文件中配置服务器
@@ -58,6 +58,14 @@ node index
 ```
 
 4. 在ICraft客户端中添加服务器并进入即可
+
+## 贡献
+
+**启动代码**: `npm start ic-launch`
+
+**修改/测试代码**: 修改代码后重新加载页面即可
+
+**Pull Request**: 发送代码时请在说明中注明修改的部分
 
 ## LICENSE
 

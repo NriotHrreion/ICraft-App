@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React, { Component } from "react";
 import { ListGroup, Button } from "react-bootstrap";
 import Axios from "axios";
@@ -109,9 +110,10 @@ export default class Worlds extends Component {
                 var listItem = document.createElement("div");
                 listItem.className = "list-group-item";
                 listItem.setAttribute("data-worldname", list[i].name);
-                listItem.onclick = (e) => {
-                    if(!this.isDeleteMode) {
-                        window.location.href = "http://"+ window.location.host +"/client/?map="+ e.target.getAttribute("data-worldname") +".cmworld";
+                var self = this;
+                listItem.onclick = function() {
+                    if(!self.isDeleteMode) {
+                        window.location.href = "http://"+ window.location.host +"/client/?map="+ this.getAttribute("data-worldname") +".cmworld&player="+ document.getElementById("userNameText").innerText;
                     }
                 };
                 var worldNameText = document.createElement("span");
