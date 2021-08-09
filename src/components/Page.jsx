@@ -3,7 +3,7 @@ import { Image, Breadcrumb, Button } from "react-bootstrap";
 import Axios from "axios";
 import "./Page.css";
 
-import AppIcon from "../static/app_icon.ico";
+import AppIcon from "../static/logo.png";
 
 export default class Page extends Component {
     async getUserInfo() {

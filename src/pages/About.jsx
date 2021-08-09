@@ -12,7 +12,7 @@ export default class About extends Component {
                 </div>
                 <div className="main-container">
                     <h2>游戏</h2>
-                    <p>版本 v0.4.0 - 贴图来自 <a href="https://www.mojang.com">Mojang Studio</a>, 界面设计参考 <a href="https://minecraft.net">Minecraft</a></p>
+                    <p>版本 v0.4.1 - 贴图来自 <a href="https://www.mojang.com">Mojang Studio</a>, 界面设计参考 <a href="https://minecraft.net">Minecraft</a></p>
                     <h2>开发者</h2>
                     <p><code>NriotHrreion</code> - 项目开发 &lt;<b>nriot233@gmail.com</b>&gt;</p>
                     <p><code>Deed</code> - 功能测试 &lt;<b>Deed_9189@outlook.com</b>&gt;</p>

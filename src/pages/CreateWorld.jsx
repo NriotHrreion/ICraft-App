@@ -17,7 +17,7 @@ export default class CreateWorld extends Component {
         Axios.post("http://"+ window.location.hostname +":3001/createWorld", "name="+ this.worldName, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).then((res) => {
-            window.location.href = "http://"+ window.location.host +"/client/?map="+ this.worldName +".cmworld";
+            window.location.href = "http://"+ window.location.host +"/client/?map="+ this.worldName +".cmworld&player="+ document.getElementById("userNameText").innerText;
         }).catch((err) => {
             throw err;
         });

@@ -5,7 +5,7 @@
 
 class Render {
     constructor(game) {
-        /** @type {Game} */
+        /** @type {ICraft} */
         this.game = game;
         /** @type {CanvasRenderingContext2D} */
         this.ctx = this.game.ctx;
@@ -16,10 +16,12 @@ class Render {
             LEFT: 0,
             RIGHT: 1
         };
+        /** @type {Player} */
+        this.playerObject = this.game.getSelfPlayer();
         this.player = {
-            x: 0,
-            y: 0,
-            direction: this.playerDirection.RIGHT,
+            x: this.playerObject.pos.x,
+            y: this.playerObject.pos.y,
+            direction: this.playerObject.direction,
             texture: this.getTexture("texture:player_stand_right")
         };
 
@@ -58,11 +60,11 @@ class Render {
                 }
             }
 
-            var eventData = new CustomEvent("draw", {detail: {
+            var eventDraw = new CustomEvent("draw", {detail: {
                 position: [posY, posX],
                 blockName: this.game.currentBlock
             }});
-            this.game.canvas.dispatchEvent(eventData);
+            this.game.canvas.dispatchEvent(eventDraw);
         } else if(this.game.isCleaning && !this.game.isDrawing) {
             if(!(block instanceof BlockAir)) {
                 this.map[posY][posX] = new window.blocks["air"](this);
@@ -78,16 +80,20 @@ class Render {
                 }
             }
 
-            /** @todo */
-            // dispatchEvent undraw
+            var eventUndraw = new CustomEvent("undraw", {detail: {
+                position: [posY, posX],
+                blockName: block
+            }});
+            this.game.canvas.dispatchEvent(eventUndraw);
         }
 
         // render player
         this.ctx.drawImage(this.player.texture, this.player.x, this.player.y, this.blockSize, 2 * this.blockSize);
 
         // render player's name
+        var luNumber = nutils.countLUNumber(this.game.playerName);
         this.ctx.fillStyle = "#000";
-        this.ctx.fillText(this.game.playerName, this.player.x - this.blockSize / 2 + 5, this.player.y - 5);
+        this.ctx.fillText(this.game.playerName, this.player.x - (luNumber.lowerCase * 3.5 + luNumber.upperCase * 6) / 2 + 5, this.player.y - 5);
 
         document.getElementById("fps").innerText = "fps: "+ this.game.fps;
         document.getElementById("cb").innerText = "当前方块: "+ this.game.currentBlock;

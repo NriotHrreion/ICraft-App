@@ -1,6 +1,12 @@
+<div align="center">
+
+<img src="./src/static/logo.png" width="70">
+
 # ICraft App
 
 By NriotHrreion; Using [React.js](http://reactjs.org)
+
+</div>
 
 ## 简介
 

@@ -1,6 +1,6 @@
 class Command {
     constructor(game) {
-        /** @type {Game} */
+        /** @type {ICraft} */
         this.game = game;
         /** @type {{name : string, runner : CommandsBase}} */
         this.commands = [];

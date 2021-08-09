@@ -23,7 +23,7 @@
 class PluginBase {
     /** @constructor */
     constructor() {
-        /** @type {Game} */
+        /** @type {ICraft} */
         this.game = game;
         /** @type {Render} */
         this.renderer = this.game.renderer;
@@ -37,7 +37,7 @@ class PluginBase {
     /**
      * Add an event listener to **ICraft**
      * 
-     * @param {"draw" | "blockChange" | "iconChange"} name Listener Name
+     * @param {"draw" | "undraw" | "blockChange" | "iconChange"} name Listener Name
      * @param {(e : {detail? : object})} callback Listener Callback
      * 
      * @example

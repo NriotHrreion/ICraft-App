@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-class Game {
+class ICraft {
     constructor(canvas, ctx, playerName) {
         /** @type {HTMLCanvasElement} */
         this.canvas = canvas;
@@ -15,6 +15,8 @@ class Game {
         this.ctx = ctx;
         /** @type {string} */
         this.playerName = playerName;
+        this.players = [];
+        this.addPlayer(this.playerName);
         this.currentBlock = "stone";
         this.iconPath = "./sources/default_icon.png";
 
@@ -41,14 +43,16 @@ class Game {
 
         // Listeners
         this.canvas.addEventListener("draw", () => {});
+        this.canvas.addEventListener("undraw", () => {});
         this.canvas.addEventListener("blockChange", () => {});
         this.canvas.addEventListener("iconChange", () => {});
 
         console.log("Loaded player \""+ this.playerName +"\" <Game>");
     }
 
-    init() {
+    main() {
         var self = this;
+        console.log("Launching ICraft... <Game.main>");
 
         this.initBackground();
         this.initTextures();
@@ -100,7 +104,7 @@ class Game {
             document.body.appendChild(clientPluginScript);
         }
 
-        console.log("ICraft Inited. fps: "+ this.fps +" <Game.init>");
+        console.log("ICraft Inited. fps: "+ this.fps +" <Game.main>");
     }
 
     initBackground() {
@@ -382,6 +386,18 @@ class Game {
         }
     }
 
+    addPlayer(name) {
+        this.players.push(new Player(this, name));
+    }
+
+    getSelfPlayer() {
+        for(let i in this.players) {
+            if(this.players[i].name == this.playerName) {
+                return this.players[i];
+            }
+        }
+    }
+
     setCurrentBlock(blockName) {
         this.currentBlock = blockName;
     }
@@ -467,5 +483,21 @@ class Game {
 
     getRealPosition(pos) {
         return Math.round(pos / this.renderer.blockSize);
+    }
+}
+
+class Player {
+    constructor(game, name) {
+        /** @type {ICraft} */
+        this.game = game;
+        /** @type {Render} */
+        this.renderer = this.game.renderer;
+        /** @type {string} */
+        this.name = name;
+        this.pos = {
+            x: 5,
+            y: 18
+        };
+        this.direction = 1; // 0 left; 1 right
     }
 }

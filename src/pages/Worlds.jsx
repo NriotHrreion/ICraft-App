@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable eqeqeq */
 /* eslint-disable no-loop-func */
 import React, { Component } from "react";
 import { ListGroup, Button } from "react-bootstrap";
