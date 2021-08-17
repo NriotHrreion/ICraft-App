@@ -37,7 +37,7 @@ class PluginBase {
     /**
      * Add an event listener to **ICraft**
      * 
-     * @param {"draw" | "undraw" | "blockChange" | "iconChange"} name Listener Name
+     * @param {"draw" | "undraw" | "blockChange" | "iconChange" | "playerMove"} name Listener Name
      * @param {(e : {detail? : object})} callback Listener Callback
      * 
      * @example
@@ -60,9 +60,10 @@ class PluginBase {
      * this.setInfoText("HelloWorld");
      * 
      * @access public
+     * @deprecated
      */
     setInfoText(text) {
-        document.getElementById("info").innerHTML = text;
+        // document.getElementById("info").innerHTML = text;
     }
 
     /**

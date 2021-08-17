@@ -95,7 +95,7 @@ export default class Worlds extends Component {
                     <Button variant="success" onClick={() => this.setDeleteMode()} className="control-btn" id="operate-btn">管理存档</Button>
                     <Button variant="danger" onClick={() => this.deleteWorlds()} className="control-btn delete-btn" id="delete-btn">批量删除</Button>
                     
-                    <ListGroup id="worldList"></ListGroup>
+                    <ListGroup id="worldList" style={{height: 242}}></ListGroup>
                 </div>
             </Page>
         );

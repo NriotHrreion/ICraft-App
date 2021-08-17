@@ -12,6 +12,8 @@ By NriotHrreion; Using [React.js](http://reactjs.org)
 
 这是Minecraft的2D版本, 可以用来当画板用, 或者也可以拿来玩, 和别人一起联机
 
+[ICraft 开发日志](https://nriothrreion.github.io/tags/ICraft/)
+
 ## 客户端使用
 
 1. 下载源码到本地

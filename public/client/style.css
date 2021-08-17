@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 button:not(.control-btn) {
     border: 0;
     background: none;
@@ -12,22 +16,49 @@ button:not(.control-btn) img {
     height: 16px;
 }
 
-.about-container {
-    margin: 0 auto;
+.navbar-container {
+    height: 25px;
+    margin: 0;
+    background-color: #ddd;
+    cursor: default;
 }
 
-.about-container p {
-    text-align: center;
-    color: #9e9e9e;
-    font-size: 10pt;
-    font-family: Consolas;
-    margin: 2px;
-}
-
-.about-container .icon {
-    width: 30px;
-    height: 30px;
+.navbar-container .icon {
+    width: 15px;
+    height: 15px;
+    margin: 5px;
     float: left;
+}
+
+.navbar-container nav button {
+    height: 25px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    font-size: 10pt;
+    cursor: pointer;
+}
+
+.navbar-container nav button:hover {
+    background-color: #ccc;
+}
+
+.navbar-container nav button:active {
+    background-color: #bbb;
+}
+
+.navbar-container nav .info-container {
+    float: right;
+    margin: 5px;
+    margin-top: 0;
+    padding: 3px;
+    padding-right: 5px;
+    font-size: 9pt;
+}
+
+.navbar-container nav .info-container #status {
+    margin-right: 30px;
 }
 
 .game-container {
@@ -36,34 +67,18 @@ button:not(.control-btn) img {
 }
 
 .game-container .canvas {
-    border: 1px solid rgb(184, 184, 184);
+    border: 2px solid rgb(184, 184, 184);
     margin: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.control-panel-container {
+    text-align: center;
 }
 
 .control-panel-container .blocks-container {
     display: inline-block;
-    margin: 5px;
-    margin-left: 0;
-    padding: 3px;
-}
-
-.control-panel-container .control-btn {
-    outline: none;
-    cursor: pointer;
-}
-
-.control-panel-container .control-btn.eraser {
-    background-color: #eee;
-    border: none;
-    position: relative;
-    top: -3px;
-}
-
-.control-panel-container .info-container {
-    float: right;
-    margin: 5px;
-    margin-top: 0;
-    margin-right: 0;
     padding: 3px;
 }
 

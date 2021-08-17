@@ -2,8 +2,10 @@ const WebSocket = require("ws");
 const logger = require("./logger");
 const fs = require("fs");
 const path = require("path");
+const nutils = require("../public/client/lib/utils");
 
 const config = JSON.parse(fs.readFileSync(path.resolve(__dirname +"/config.json")).toString());
+const data = JSON.parse(fs.readFileSync(path.resolve(__dirname +"/data.json")).toString());
 
 var wss = new WebSocket.Server({
     port: config.port
@@ -20,6 +22,8 @@ for(let i in map) {
     map[i] = arr;
 }
 
+var players = [];
+
 const worldPath = path.resolve(__dirname +"/"+ config.worldName +".cmworld");
 
 loadMapData();
@@ -30,6 +34,18 @@ wss.on("connection", (ws) => {
         // eslint-disable-next-line default-case
         switch(msg.type) {
             case "joinServer":
+                var playerName = msg.data.playerName;
+                var playerX = getPlayerPosition(playerName) == undefined ? 5 : getPlayerPosition(playerName).x;
+                var playerY = getPlayerPosition(playerName) == undefined ? 18 : getPlayerPosition(playerName).y;
+
+                setPlayerPosition(playerName, playerX, playerY);
+
+                players.push({
+                    playerName: msg.data.playerName,
+                    x: playerX,
+                    y: playerY
+                });
+
                 logger.info(`${msg.data.playerName} joined the server`);
                 sendMapDataToClient();
                 wss.clients.forEach((client) => {
@@ -45,6 +61,11 @@ wss.on("connection", (ws) => {
                 });
                 break;
             case "leaveServer":
+                for(let i in players) {
+                    if(players[i] != undefined && players[i].playerName == msg.data.playerName) {
+                        players[i] = undefined;
+                    }
+                }
                 logger.info(`${msg.data.playerName} left the server`);
                 wss.clients.forEach((client) => {
                     var time = new Date();
@@ -62,6 +83,24 @@ wss.on("connection", (ws) => {
                 setBlock(msg.data.posX, msg.data.posY, msg.data.block);
                 sendMapDataToClient();
                 break;
+            case "blockBreak":
+                setBlock(msg.data.posX, msg.data.posY, "air");
+                sendMapDataToClient();
+                break;
+            case "playerMove":
+                setPlayerPosition(msg.data.player, msg.data.posX, msg.data.posY);
+
+                wss.clients.forEach((client) => {
+                    client.send(JSON.stringify({
+                        type: "playerMove",
+                        data: {
+                            position: [msg.data.posY, msg.data.posX],
+                            texture: msg.data.texture,
+                            playerName: msg.data.player
+                        }
+                    }));
+                });
+                break;
             case "chatMessage":
                 logger.message(msg.data.playerName, msg.data.message);
                 sendChatMessage(msg.data.playerName, msg.data.message);
@@ -72,6 +111,17 @@ wss.on("connection", (ws) => {
                         type: "motd",
                         data: {
                             motd: config.serverMotd
+                        }
+                    }));
+                });
+                break;
+            case "playerList":
+                players = [...new Set(players)];
+                wss.clients.forEach((client) => {
+                    client.send(JSON.stringify({
+                        type: "playerList-"+ msg.data.token,
+                        data: {
+                            list: players
                         }
                     }));
                 });
@@ -222,6 +272,27 @@ function sendChatMessage(playerName, message) {
             }
         }));
     });
+}
+
+function getPlayerPosition(name) {
+    var positions = data.playerPosition;
+    for(let i in positions) {
+        if(positions[i].playerName == name) {
+            return positions[i];
+        }
+    }
+    return undefined;
+}
+
+function setPlayerPosition(name, x, y) {
+    var positions = data.playerPosition;
+    for(let i in positions) {
+        if(positions[i].playerName == name) {
+            positions[i].x = x;
+            positions[i].y = y;
+            fs.writeFileSync(path.resolve(__dirname +"/data.json"), JSON.stringify(data));
+        }
+    }
 }
 
 function getRandom(min, max) {

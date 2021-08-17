@@ -1,8 +1,12 @@
 class BaoguoBlock { // 声明马保国块属性 注意: 注册方块前, 请把方块贴图改为png格式并重命名为方块名
-    constructor() {
+    constructor(renderer, x, y) {
         this.color = "#9e9e9e";
         this.texture = "texture:baoguo";
         this.blockName = "baoguo";
+    }
+
+    update() {
+        /* 更新函数, 每次渲染时调用 */
     }
 
     static getName() {
@@ -27,7 +31,7 @@ class ExamplePlugin extends PluginBase {
         this.renderer; // 渲染对象
 
         this.init();
-        this.setInfoText("Hello World, "+ this.pluginDetail.name); // 在信息栏显示文字信息 (可使用html语法控制style)
+        this.setStatusText("Hello World, "+ this.pluginDetail.name); // 在状态栏显示文字信息
     }
 
     init() {
@@ -59,7 +63,7 @@ new ExamplePlugin(); // 运行插件, 没有这句话插件不会运行
  * 
  * this.addListener(string name, Function callback) 添加事件监听器
  * this.register(string type, Object obj) 注册对象, type的值参考下方的"注册对象"
- * this.setInfoText(string text) 设置信息栏文字信息
+ * this.game.setStatusText(string text) 设置状态栏信息
  * this.setBlock(number x, number y, string blockName) 放置方块
  * this.game.saveLevel() 保存存档
  * this.game.loadLevel() 加载存档
@@ -67,6 +71,10 @@ new ExamplePlugin(); // 运行插件, 没有这句话插件不会运行
  * this.game.setDrawing(boolean isDrawing) 设置用户是否正在放置方块的状态
  * this.game.setIcon(string iconPath) 设置存档图标
  * this.game.setFps(number fps) 设置帧率 取值范围: (0 < fps <= 1000)
+ * this.game.addPlayer(string name) 添加玩家角色
+ * this.game.removePlayer(string name) 移除玩家角色
+ * this.game.getPlayer(string name) 获取玩家角色对象
+ * this.game.getSelfPlayer() 获取当前玩家角色对象
  * this.renderer.clearCanvas() 清空当前帧
  * this.renderer.clearData() 清空存档数据
  */
@@ -80,11 +88,20 @@ new ExamplePlugin(); // 运行插件, 没有这句话插件不会运行
  * e.detail.position 方块放置位置 (Array)
  * e.detail.blockName 方块名 (string)
  * 
+ * undraw: 移除方块事件
+ * e.detail.position 被移除方块位置 (Array)
+ * e.detail.blockName 被移除方块名 (string)
+ * 
  * blockChange: 选择方块
  * e.detail.blockName 方块名 (string)
  * 
  * iconChange: 图标设置
  * e.detail.icon 图标路径 (string)
+ * 
+ * playerMove: 玩家移动
+ * e.detail.position 玩家移动后的位置 (Array)
+ * e.detail.texture 玩家当前贴图 (HTMLElement)
+ * e.detail.player 玩家名 (string)
  */
 
 /**

@@ -1,5 +1,15 @@
+.home-page .header-container .logo {
+    width: 70px;
+    margin-top: 20px;
+}
+
+.home-page .header-container h1 {
+    margin-top: 20px;
+}
+
 .home-page .main-container {
     text-align: center;
+    margin-top: 30px;
 }
 
 .home-page .main-container button {

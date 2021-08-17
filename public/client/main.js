@@ -4,7 +4,7 @@
  * @readonly
  * @global
  */
-const version = "0.4.1";
+const version = "0.5.0";
 
 var info = `
 _____ _____            __ _   
@@ -19,6 +19,6 @@ _____ _____            __ _
 console.log(info, "color:gray", "", "font-weight:bold");
 
 var canvas = document.getElementById("main");
-var game = new ICraft(canvas, canvas.getContext("2d"), window.location.search.replace("?", "").split("&")[1].replace("player=", ""));
+var game = new ICraft(canvas, window.location.search.replace("?", "").split("&")[1].replace("player=", ""));
 
 game.main(); // init and launch game

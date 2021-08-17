@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { Image, Breadcrumb, Button } from "react-bootstrap";
+import { Breadcrumb, Button } from "react-bootstrap";
 import Axios from "axios";
 import "./Page.css";
-
-import AppIcon from "../static/logo.png";
 
 export default class Page extends Component {
     async getUserInfo() {
@@ -23,18 +21,19 @@ export default class Page extends Component {
     backButton() {
         if(this.props.back) {
             return (
-                <Button variant="link" className="link-btn" onClick={() => {
-                    window.location.href = "http://"+ window.location.host +"/"+ this.props.back
-                }}>返回</Button>
+                <div style={{display: "inline-block"}}>
+                    <Button variant="link" className="link-btn" onClick={() => {
+                        window.location.href = "http://"+ window.location.host +"/home"
+                    }}>主页</Button>
+                    <Button variant="link" className="link-btn" onClick={() => {
+                        window.location.href = "http://"+ window.location.host +"/"+ this.props.back
+                    }}>返回</Button>
+                </div>
             );
         }
     }
 
     render() {
-        if(this.props.title) {
-            document.title = this.props.title;
-        }
-
         return (
             <div className={this.props.className}>
                 <div className="nav-container">
@@ -44,7 +43,6 @@ export default class Page extends Component {
                         {this.props.nonav ? null : <Breadcrumb.Item active>{this.props.title}</Breadcrumb.Item>}
                         {this.props.nonav && this.props.secondTitle ? null : <Breadcrumb.Item active>{this.props.secondTitle}</Breadcrumb.Item>}
 
-                        <Image src={AppIcon} className="app-icon"></Image>
                         <div id="userInfo" className="user-info-container"></div>
                     </Breadcrumb>
                 </div>
@@ -92,7 +90,7 @@ export default class Page extends Component {
             userInfoElem.parentElement.appendChild(editNameButton);
 
             var userNameText = document.createElement("p");
-            userNameText.innerText = user.name;
+            userNameText.innerHTML = "<b>"+ user.name +"</b>";
             userNameText.className = "link-btn";
             userNameText.id = "userNameText";
             userInfoElem.appendChild(userNameText);

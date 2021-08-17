@@ -55,20 +55,26 @@ class Utils {
         return length;
     }
 
-    countLUNumber(str) {
+    countWordsNumber(str) {
         var strArr = str.split("");
-        var lowerCase = [];
-        var upperCase = [];
+        var lowerCase = 0;
+        var upperCase = 0;
+        var numbers = 0;
+        var underline = 0;
 
         for(let item of strArr) {
             var code = item.charCodeAt();
-            if(code >= "a".charCodeAt() && code <= "z".charCodeAt()) lowerCase.push(item);
-            if(code >= "A".charCodeAt() && code <= "Z".charCodeAt()) upperCase.push(item);
+            if(code >= "a".charCodeAt() && code <= "z".charCodeAt()) lowerCase++;
+            if(code >= "A".charCodeAt() && code <= "Z".charCodeAt()) upperCase++;
+            if(code >= "0".charCodeAt() && code <= "9".charCodeAt()) numbers++;
+            if(item == "_") underline++;
         }
 
         return {
-            lowerCase: lowerCase.length,
-            upperCase: upperCase.length
+            lowerCase: lowerCase,
+            upperCase: upperCase,
+            numbers: numbers,
+            underline: underline
         };
     }
 }

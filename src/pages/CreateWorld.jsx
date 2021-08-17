@@ -9,12 +9,13 @@ export default class CreateWorld extends Component {
         super(props);
 
         this.worldName = "World";
+        this.isTerrain = "1";
     }
 
     handleSubmit(e) {
         e.preventDefault();
 
-        Axios.post("http://"+ window.location.hostname +":3001/createWorld", "name="+ this.worldName, {
+        Axios.post("http://"+ window.location.hostname +":3001/createWorld", "name="+ this.worldName +"&terrain="+ this.isTerrain, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).then((res) => {
             window.location.href = "http://"+ window.location.host +"/client/?map="+ this.worldName +".cmworld&player="+ document.getElementById("userNameText").innerText;
@@ -39,6 +40,12 @@ export default class CreateWorld extends Component {
                         <Form.Group>
                             <Form.Label>存档名称(禁止重复命名)</Form.Label>
                             <Form.Control type="text" defaultValue="World" autoFocus={true} autoComplete="off" onChange={(e) => {this.worldName = e.target.value}}/>
+                            <br/>
+                            <Form.Label>存档类型</Form.Label>
+                            <Form.Control as="select" defaultValue="1" onChange={(e) => {this.isTerrain = e.target.value}}>
+                                <option value="0">虚空</option>
+                                <option value="1">多地形</option>
+                            </Form.Control>
 
                             <Button variant="success" type="submit" className="control-btn">创建</Button>
                             <Button variant="primary" className="control-btn" onClick={() => this.handleCancelClick()}>取消</Button>

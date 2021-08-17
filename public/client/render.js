@@ -11,11 +11,6 @@ class Render {
         this.ctx = this.game.ctx;
         this.blockSize = 20;
         this.map = new Array(this.game.canvas.height / this.blockSize).fill(0);
-        /** @enum */
-        this.playerDirection = {
-            LEFT: 0,
-            RIGHT: 1
-        };
         /** @type {Player} */
         this.playerObject = this.game.getSelfPlayer();
         this.player = {
@@ -88,16 +83,19 @@ class Render {
         }
 
         // render player
-        this.ctx.drawImage(this.player.texture, this.player.x, this.player.y, this.blockSize, 2 * this.blockSize);
+        for(let i in this.game.players) {
+            /** @type {Player} */
+            var p = this.game.players[i];
+            this.ctx.drawImage(p.texture, p.pos.x, p.pos.y, this.blockSize, 2 * this.blockSize);
 
-        // render player's name
-        var luNumber = nutils.countLUNumber(this.game.playerName);
-        this.ctx.fillStyle = "#000";
-        this.ctx.fillText(this.game.playerName, this.player.x - (luNumber.lowerCase * 3.5 + luNumber.upperCase * 6) / 2 + 5, this.player.y - 5);
+            var luNumber = nutils.countWordsNumber(p.name);
+            this.ctx.fillStyle = this.game.daynight == DayTime.DAY ? "#000" : "#fff";
+            this.ctx.fillText(p.name, p.pos.x - (luNumber.lowerCase * 3.5 + luNumber.upperCase * 6 + luNumber.numbers * 4.5 + luNumber.underline * 3.5) / 2 + 5, p.pos.y - 5);
+        }
 
         document.getElementById("fps").innerText = "fps: "+ this.game.fps;
-        document.getElementById("cb").innerText = "当前方块: "+ this.game.currentBlock;
-
+        document.getElementById("cb").innerHTML = "当前方块: <img src=\""+ this.getTexture("texture:"+ this.game.currentBlock).src +"\"/>";
+        
         for(let y = 0; y < this.map.length; y++) {
             for(let x = 0; x < this.map[y].length; x++) {
                 try {
@@ -113,6 +111,11 @@ class Render {
                     this.ctx.drawImage(this.getTexture(this.map[y][x].texture), x * this.blockSize, y * this.blockSize, this.blockSize, this.blockSize);
                 }
             }
+        }
+
+        if(this.game.daynight == DayTime.NIGHT) {
+            this.ctx.fillStyle = "rgba(2, 2, 2, 0.4)";
+            this.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         }
     }
 
@@ -136,6 +139,7 @@ class Render {
         }
         
         this.game.initBackground();
+        this.game.setStatusText("重置成功");
         console.log("Map Resetted. <Render.clearData>");
     }
 

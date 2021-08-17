@@ -13,17 +13,10 @@
     <script src="./pluginBase.js"></script>
 </head>
 <body>
-    <div class="about-container">
-        <p><img src id="icon" class="icon"><b>ICraft</b> <span>By NriotHrreion</span> <span id="info"></span></p>
-    </div>
-    <div class="game-container">
-        <canvas id="main" class="canvas" width="1200" height="540"></canvas>
-    </div>
-    <div class="control-panel-container">
-        <div class="blocks-container" id="block-list"></div>
-        <dir class="info-container" id="button-list">
-            <span id="fps">fps: </span>&nbsp;
-            <span id="cb">当前方块: </span>
+    <div id="navbar" class="navbar-container">
+        <img src id="icon" class="icon">
+        <nav id="button-list">
+            <button data-block="$quit" class="control-btn" id="btn-quit">退出游戏</button>
             <button data-block="$music" class="control-btn">音乐</button>
             <button data-block="$icon" class="control-btn" id="btn-icon">设置图标</button>
             <button data-block="$plugin" class="control-btn" id="btn-plugin">加载插件</button>
@@ -31,9 +24,23 @@
             <button data-block="$chat" class="control-btn">聊天栏</button>
             <button data-block="$save" class="control-btn">保存</button>
             <button data-block="$download" class="control-btn">下载</button>
-        </dir>
+
+            <dir class="info-container">
+                <span id="status"></span>
+
+                <span id="fps">fps: </span>&nbsp;
+                <span id="cb">当前方块: </span>
+            </dir>
+        </nav>
+    </div>
+    <div class="game-container">
+        <canvas id="main" class="canvas" width="1200" height="540"></canvas>
+    </div>
+    <div class="control-panel-container">
+        <div class="blocks-container" id="block-list"></div>
     </div>
     <div class="assets" style="display: none">
+        <img src="./textures/oak_door.png" id="texture:oak_door">
         <img src="./textures/oak_door_bottom.png" id="texture:oak_door_bottom">
         <img src="./textures/stand-left.png" id="texture:player_stand_left">
         <img src="./textures/stand-right.png" id="texture:player_stand_right">
@@ -41,6 +48,7 @@
         <img src="./textures/walking-left-2.png" id="texture:player_walking_left_2">
         <img src="./textures/walking-right-1.png" id="texture:player_walking_right_1">
         <img src="./textures/walking-right-2.png" id="texture:player_walking_right_2">
+        <img src="./textures/moon.png" id="texture:moon">
         <input type="file" accept=".cmworld" id="loadInput">
         <input type="file" accept=".js" id="pluginInput">
     </div>

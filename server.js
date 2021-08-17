@@ -62,7 +62,54 @@ app.post("/createWorld", (req, res) => {
 
     worldInfo.fileName = worldInfo.name +".cmworld";
     worldInfo.mapData = fs.readFileSync(path.join(path.resolve("./src"), "_empty.cmworld")).toString();
-    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), worldInfo.mapData);
+
+    // Prepare to Generate Terrain
+    var map = mapDataToArray(worldInfo.mapData);
+    var mapHeight = map.length;
+    var mapWidth = map[0].length;
+    var terrainHeight = 8;
+
+    if(req.body.terrain == "1") {
+        // Start Generating
+        try {
+            for(var i = 0; i < mapWidth; i++) {
+                for(var j = terrainHeight; j > 0; j--) {
+                    // grass block
+                    map[mapHeight - j][i] = "grass_block";
+
+                    // stone
+                    if(j < terrainHeight - 2) {
+                        map[mapHeight - j][i] = "stone";
+                    }
+
+                    // tree
+                    // var treeM = getRandom(1, 30);
+                    // if(treeM == 5) {
+                    //     setBlock(i, mapHeight - terrainHeight - 1, "oak_sapling");
+                    // }
+                }
+
+                // bedrock
+                map[mapHeight - 1][i] = "bedrock";
+
+                var rn = getRandom(1, 10);
+
+                if(rn <= 2) {
+                    terrainHeight -= 1;
+                } else if(rn > 2 && rn <= 8) {
+                    terrainHeight += 0;
+                } else if(rn > 8) {
+                    terrainHeight += 1;
+                }
+
+                // terrainHeight = terrainHeight + rn == 0 ? terrainHeight + 1 : terrainHeight + rn;
+            }
+        } catch {
+            // gjshfgajdfkjhsgf
+        }
+    }
+
+    fs.writeFileSync(path.join(worldsPath, worldInfo.name +".cmworld"), arrayToMapData(map));
     worldList.push(worldInfo);
 
     res.end();
@@ -202,3 +249,52 @@ app.get("/getUsedNameList", (req, res) => {
 app.listen(3001, () => {
     child_process.exec("react-scripts start");
 });
+
+function mapDataToArray(mapData) {
+    const blockSize = 20;
+    var map = new Array(540 / blockSize).fill(0);
+
+    for(let i in map) {
+        var arr = new Array(1200 / blockSize).fill(1);
+        for(let j in arr) {
+            arr[j] = "air";
+        }
+        
+        map[i] = arr;
+    }
+
+    var dataParts = mapData.split(";");
+    var level;
+    if(dataParts.length == 2) {
+        level = dataParts[1].replace("[", "").replace("]", "").split(",");
+    } else {
+        level = mapData.replace("[", "").replace("]", "").split(",");
+    }
+
+    var num = 0;
+
+    for(let y = 0; y < map.length; y++) {
+        for(let x = 0; x < map[y].length; x++) {
+            map[y][x] = level[num];
+            num++;
+        }
+    }
+
+    return map;
+}
+
+function arrayToMapData(map) {
+    var arr_str = map.toString();
+
+    for(let y = 0; y < map.length; y++) {
+        for(let x = 0; x < map[y].length; x++) {
+            arr_str = arr_str.replace("[object Object]", map[y][x]);
+        }
+    }
+
+    return "["+ arr_str +"]";
+}
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}

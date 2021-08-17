@@ -3,12 +3,14 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import Page from "../components/Page";
 import "./Home.css";
 import Background from "../static/background.png";
+import AppIcon from "../static/logo.png";
 
 export default class Home extends Component {
     render() {
         return (
             <Page title="主页" nonav className="home-page">
                 <div className="header-container">
+                    <img src={AppIcon} alt="" class="logo"/>
                     <h1>ICraft</h1>
                     <p>Minecraft 2D</p>
                 </div>
@@ -24,6 +26,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        // Draw Background
         document.body.style.backgroundImage = "url("+ Background +")";
         document.body.style.backgroundRepeat = "no-repeat";
         document.body.style.backgroundSize = "100% 100%";

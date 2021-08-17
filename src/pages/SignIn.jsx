@@ -28,6 +28,16 @@ export default class SignIn extends Component {
         window.history.back(-1);
     }
 
+    handleInputChange(e) {
+        var original = e.target.value.replace(/[^a-zA-Z|\d|_]/g, ""); // Can be only words, numbers or underline
+
+        if(original > 0 && original.length <= 20) {
+            this.userName = original;
+        } else {
+            this.userName = original.substr(0, 20);
+        }
+    }
+
     async getUsedNameList() {
         var result = [];
 
@@ -50,8 +60,8 @@ export default class SignIn extends Component {
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>
                         <Form.Group>
-                            <Form.Label>用户名</Form.Label>
-                            <Form.Control id="userNameInput" type="text" autoFocus={true} autoComplete="off" onChange={(e) => {this.userName = e.target.value}}/>
+                            <Form.Label>用户名(由字母、数字、下划线构成, 限制字数≤20)</Form.Label>
+                            <Form.Control id="userNameInput" type="text" autoFocus={true} autoComplete="off" onChange={(e) => {this.handleInputChange(e)}}/>
                             
                             <Dropdown>
                                 <Dropdown.Toggle variant="success" id="dropdownButton">

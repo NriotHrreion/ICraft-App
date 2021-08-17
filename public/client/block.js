@@ -142,6 +142,11 @@ class BlockOakDoor {
         var map = this.renderer.map;
         var topBlock = map[this.posY - 1][this.posX];
 
+        if(map[this.posY + 1][this.posX].blockName == "air") {
+            this.renderer.map[this.posY][this.posX] = new BlockAir(this.renderer);
+            this.renderer.map[this.posY - 1][this.posX] = new BlockAir(this.renderer);
+        }
+
         if(topBlock.blockName == "air" && this.part == "bottom") {
             this.renderer.map[this.posY - 1][this.posX] = new BlockOakDoor("top", this.renderer, this.posX, this.posY);
         } else if(((topBlock.blockName != "air" && !(topBlock instanceof BlockOakDoor)) || topBlock.blockName == "oak_door_bottom") && this.part == "bottom") {
