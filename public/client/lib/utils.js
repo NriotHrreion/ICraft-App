@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 class Utils {
     arrayItemDelete(arr, item) {
         if(item == undefined) return arr;
@@ -76,6 +77,26 @@ class Utils {
             numbers: numbers,
             underline: underline
         };
+    }
+
+    bindKeyListener(keyName, isCtrl, isPD, callback) {
+        document.body.addEventListener("keydown", (e) => {
+            if(isCtrl) {
+                if(e.ctrlKey && e.key == keyName) {
+                    if(isPD) {
+                        e.preventDefault();
+                    }
+                    callback();
+                }
+            } else {
+                if(e.key == keyName) {
+                    if(isPD) {
+                        e.preventDefault();
+                    }
+                    callback();
+                }
+            }
+        });
     }
 }
 

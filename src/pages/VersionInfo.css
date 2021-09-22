@@ -1,0 +1,16 @@
+.check-update-page .main-container .btn {
+    margin-bottom: 10px;
+    outline: none !important;
+}
+
+.check-update-page .main-container .check-result {
+    margin-left: 15px;
+}
+
+.check-update-page .main-container .list-group .list-group-item {
+    cursor: pointer;
+}
+
+.check-update-page .main-container .list-group .list-group-item:hover {
+    background-color: #f3f3f3;
+}

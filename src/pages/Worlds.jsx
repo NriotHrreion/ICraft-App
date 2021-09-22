@@ -76,6 +76,11 @@ export default class Worlds extends Component {
     }
 
     renameWorld(oldname, newname) {
+        if(newname.length > 15) {
+            alert("存档名称不能超过15个字符");
+            return;
+        }
+
         Axios.post("http://"+ window.location.hostname +":3001/renameWorld", "oldname="+ oldname +"&newname="+ newname, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).catch((err) => {

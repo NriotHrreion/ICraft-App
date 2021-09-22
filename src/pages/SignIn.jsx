@@ -89,6 +89,8 @@ export default class SignIn extends Component {
                     document.getElementById("usedNameList").innerHTML = "";
 
                     for(let i in list) {
+                        if(list[i] == "") continue;
+
                         var usedNameItem = document.createElement("a");
                         usedNameItem.href = "#";
                         usedNameItem.class = "dropdown-item";

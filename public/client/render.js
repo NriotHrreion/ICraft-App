@@ -29,14 +29,21 @@ class Render {
             this.map[i] = arr;
         }
 
-        console.log("Renderer Inited. <Render>");
+        Log.info("Renderer Inited. <Render>");
     }
 
     update() {
         this.clearCanvas();
 
         var posX = this.getRealPosition(this.game.mousePosition.x), posY = this.getRealPosition(this.game.mousePosition.y);
-        var block = this.map[posY][posX];
+        
+        try {
+            var block = this.map[posY][posX];
+        } catch(error) {
+            Log.warn("Renderer Warning: "+ error +" <Render.update>");
+
+            return;
+        }
 
         if(this.game.isDrawing && !this.game.isCleaning && (this.getRealPosition(this.player.x) != posX || this.getRealPosition(this.player.y) != posY) && (this.getRealPosition(this.player.x) != posX || this.getRealPosition(this.player.y + this.blockSize) != posY)) {
             if(block instanceof BlockAir && this.game.currentBlock.indexOf("oak_door") != -1) {
@@ -140,7 +147,7 @@ class Render {
         
         this.game.initBackground();
         this.game.setStatusText("重置成功");
-        console.log("Map Resetted. <Render.clearData>");
+        Log.info("Map Resetted. <Render.clearData>");
     }
 
     getRealPosition(pos) {

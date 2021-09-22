@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Page from "../components/Page";
+import ChildPage from "../components/ChildPage";
 import "./TextPage.css";
 
 export default class License extends Component {
     render() {
         return (
-            <Page title="关于" secondTitle="许可" back="about" className="text-page">
+            <ChildPage title="关于" secondTitle="许可" back="about" className="text-page">
                 <div className="header-container">
                     <h1>许可</h1>
                 </div>
@@ -13,7 +13,7 @@ export default class License extends Component {
                     <br/>
                     <p>
 MIT License<br/><br/>
-Copyright (c) 2021 NriotHrreion<br/><br/>
+Copyright (c) {new Date().getFullYear()} NriotHrreion<br/><br/>
 Permission is hereby granted, free of charge, to any person obtaining a copy<br/>
 of this software and associated documentation files (the "Software"), to deal<br/>
 in the Software without restriction, including without limitation the rights<br/>
@@ -31,7 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br
 SOFTWARE.
 </p>
                 </div>
-            </Page>
+            </ChildPage>
         );
     }
 }

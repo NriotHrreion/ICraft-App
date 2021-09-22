@@ -4,7 +4,7 @@
  * @readonly
  * @global
  */
-const version = "0.5.0";
+const version = "0.5.5";
 
 var info = `
 _____ _____            __ _   

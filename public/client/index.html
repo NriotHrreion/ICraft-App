@@ -8,22 +8,24 @@
     <title>ICraft</title>
     <link rel="icon" href="./sources/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./style.css">
-    <script src="https://cdn.jsdelivr.net/npm/downloadjs@1.4.7/download.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7/download.min.js"></script>
+    <script src="./lib/log.js"></script>
     <script src="./lib/utils.js"></script>
     <script src="./pluginBase.js"></script>
 </head>
 <body>
+    <noscript>请开启JavaScript以运行<b>ICraft</b></noscript>
+
     <div id="navbar" class="navbar-container">
-        <img src id="icon" class="icon">
+        <img src="./sources/ingame_logo.png" id="icon" class="icon">
         <nav id="button-list">
-            <button data-block="$quit" class="control-btn" id="btn-quit">退出游戏</button>
-            <button data-block="$music" class="control-btn">音乐</button>
-            <button data-block="$icon" class="control-btn" id="btn-icon">设置图标</button>
+            <button data-block="$quit" class="control-btn" id="btn-quit">保存并退出(Esc)</button>
+            <button data-block="$music" class="control-btn">音乐(M)</button>
             <button data-block="$plugin" class="control-btn" id="btn-plugin">加载插件</button>
-            <button data-block="$reset" class="control-btn" id="btn-reset">重置</button>
-            <button data-block="$chat" class="control-btn">聊天栏</button>
-            <button data-block="$save" class="control-btn">保存</button>
-            <button data-block="$download" class="control-btn">下载</button>
+            <button data-block="$reset" class="control-btn" id="btn-reset">重置(_R)</button>
+            <button data-block="$chat" class="control-btn">聊天栏(T)</button>
+            <button data-block="$save" class="control-btn">保存(_S)</button>
+            <button data-block="$download" class="control-btn">下载(_D)</button>
 
             <dir class="info-container">
                 <span id="status"></span>

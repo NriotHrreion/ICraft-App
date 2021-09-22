@@ -4,13 +4,24 @@ const fs = require("fs");
 const path = require("path");
 const child_process = require("child_process");
 
-const worldsPath = path.resolve("./src/worlds");
-const serverListPath = path.resolve("./src/_serverList.json");
-const userNamePath = path.resolve("./src/_username.txt");
-const usedNamesPath = path.resolve("./src/_usednames.txt");
+const gameFilesPath = path.resolve("./.icraft");
+const worldsPath = path.join(gameFilesPath, "./worlds");
+const serverListPath = path.join(gameFilesPath, "./_serverList.json");
+const userNamePath = path.join(gameFilesPath, "./_username.txt");
+const usedNamesPath = path.join(gameFilesPath, "./_usednames.txt");
 
 var app = express();
 var worldList = [];
+
+fs.exists(gameFilesPath, (exists) => {
+    if(!exists) {
+        fs.mkdirSync(gameFilesPath);
+        fs.mkdirSync(worldsPath);
+        fs.writeFileSync(serverListPath, "[]", {encoding: "utf-8"});
+        fs.writeFileSync(userNamePath, "", {encoding: "utf-8"});
+        fs.writeFileSync(usedNamesPath, "", {encoding: "utf-8"});
+    }
+});
 
 // load world list
 fs.readdir(worldsPath, (err, files) => {

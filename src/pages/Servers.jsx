@@ -55,7 +55,7 @@ export default class Servers extends Component {
         }
     }
 
-    deleteWorlds() {
+    deleteServers() {
         var checkBoxes = document.getElementsByClassName("form-check-input");
 
         for(let i = 0; i < checkBoxes.length; i++) {
@@ -73,7 +73,12 @@ export default class Servers extends Component {
         window.location.href = "http://"+ window.location.host +"/servers";
     }
 
-    renameWorld(oldname, newname) {
+    renameServer(oldname, newname) {
+        if(newname.length > 15) {
+            alert("服务器名称长度不能超过15个字符");
+            return;
+        }
+
         Axios.post("http://"+ window.location.hostname +":3001/renameServer", "oldname="+ oldname +"&newname="+ newname, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).catch((err) => {
@@ -92,7 +97,7 @@ export default class Servers extends Component {
                     <Button variant="success" href="/addServer" className="control-btn">添加服务器</Button>
                     <Button variant="success" onClick={() => this.setDeleteMode()} className="control-btn" id="operate-btn">管理服务器</Button>
                     <Button variant="primary" onClick={() => window.location.reload()} className="control-btn">刷新</Button>
-                    <Button variant="danger" onClick={() => this.deleteWorlds()} className="control-btn delete-btn" id="delete-btn">批量删除</Button>
+                    <Button variant="danger" onClick={() => this.deleteServers()} className="control-btn delete-btn" id="delete-btn">批量删除</Button>
                     
                     <ListGroup id="serverList"></ListGroup>
                 </div>
@@ -158,7 +163,7 @@ export default class Servers extends Component {
                     var name = e.target.getAttribute("data-servername");
                     for(let i = 0; i < items.length; i++) {
                         if(items[i].getAttribute("data-servername") == name) {
-                            this.renameWorld(name, items[i].getElementsByClassName("form-control")[0].value);
+                            this.renameServer(name, items[i].getElementsByClassName("form-control")[0].value);
                             window.location.href = "http://"+ window.location.host +"/servers";
                             break;
                         }

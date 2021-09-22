@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 // Define Blocks
 
 class BlockStone {

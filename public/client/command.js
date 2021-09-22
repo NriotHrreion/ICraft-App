@@ -30,6 +30,7 @@ class Command {
         for(let i in this.commands) {
             if(this.commands[i].name == commandName) {
                 this.commands[i].runner.onCommand(commandStuff.command, commandStuff.args, commandStuff.args.length, commandStuff.sender);
+                Log.info("Command Used: "+ commandStuff.command +" <Command.dispatch>");
                 return;
             }
         }

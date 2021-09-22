@@ -63,7 +63,7 @@ export default class Page extends Component {
         }
         
         this.getUserInfo().then((user) => {
-            if(user.name == "*nouser*") {
+            if(user.name == "") {
                 var signInButton = document.createElement("button");
                 signInButton.innerText = "注册";
                 signInButton.type = "button";

@@ -15,6 +15,11 @@ export default class CreateWorld extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
+        if(this.worldName.length > 15) {
+            alert("存档名称不能超过15个字符");
+            return;
+        }
+
         Axios.post("http://"+ window.location.hostname +":3001/createWorld", "name="+ this.worldName +"&terrain="+ this.isTerrain, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).then((res) => {
@@ -33,7 +38,6 @@ export default class CreateWorld extends Component {
             <Page title="存档列表" secondTitle="创建存档" back="worlds" className="form-page">
                 <div className="header-container">
                     <h1>创建存档</h1>
-                    <p>一个新的ICraft存档</p>
                 </div>
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>

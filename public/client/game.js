@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 /* eslint-disable default-case */
 /**
@@ -63,18 +64,19 @@ class ICraft {
         this.canvas.addEventListener("iconChange", () => {});
         this.canvas.addEventListener("playerMove", () => {});
 
-        console.log("Loaded player \""+ this.playerName +"\" <Game>");
+        Log.info("Loaded player \""+ this.playerName +"\" <Game>");
     }
 
     main() {
         var self = this;
-        console.log("Launching ICraft... <Game.main>");
+        Log.info("Launching ICraft... <Game.main>");
 
         this.initBackground();
         this.initTextures();
-        this.initIcon();
+        // this.initIcon();
         this.initPlayer();
         this.initCommand();
+        this.initKeyBinds();
 
         this.canvas.addEventListener("mousedown", (e) => {
             if(e.button == 0) {
@@ -125,7 +127,7 @@ class ICraft {
             document.body.appendChild(clientPluginScript);
         }
 
-        console.log("ICraft Inited. fps: "+ this.fps +" <Game.main>");
+        Log.info("ICraft Inited. fps: "+ this.fps +" <Game.main>");
     }
 
     initBackground() {
@@ -178,13 +180,14 @@ class ICraft {
             blockListElem.appendChild(button);
         }
 
-        console.log("Textures Inited. <Game.initTextures>");
+        Log.info("Textures Inited. <Game.initTextures>");
     }
 
+    /** @deprecated */
     initIcon() {
         document.getElementById("icon").src = this.iconPath;
 
-        console.log("Icon Inited. <Game.initIcon>");
+        Log.info("Icon Inited. <Game.initIcon>");
     }
 
     initPlayer() {
@@ -321,6 +324,36 @@ class ICraft {
         this.commandManager.register("suicide", new CommandSuicide(this));
     }
 
+    initKeyBinds() {
+        nutils.bindKeyListener("Escape", false, true, () => {
+            if(this.isChatting) {
+                document.getElementById("chat").close();
+                this.isChatting = false;
+            } else {
+                this.saveLevel();
+                window.location.href = "http://"+ window.location.host +"/home";
+            }
+        });
+        nutils.bindKeyListener("t", false, false, () => {
+            if(!this.isChatting) {
+                document.getElementById("chat").show();
+                this.isChatting = true;
+            }
+        });
+        nutils.bindKeyListener("m", false, false, () => {
+            if(!this.isMusicPlaying) {
+                document.getElementById("source:music").play();
+                this.isMusicPlaying = true;
+            } else {
+                document.getElementById("source:music").pause();
+                this.isMusicPlaying = false;
+            }
+        });
+        nutils.bindKeyListener("d", true, true, () => download(this.canvas.toDataURL("image/png")));
+        nutils.bindKeyListener("r", true, true, () => this.renderer.clearData());
+        nutils.bindKeyListener("s", true, true, () => this.saveLevel());
+    }
+
     resetPlayerTexture() {
         switch(this.renderer.player.direction) {
             case PlayerDirection.LEFT:
@@ -351,9 +384,9 @@ class ICraft {
                     this.isMusicPlaying = false;
                 }
                 break;
-            case "$icon":
-                this.setIcon(prompt("图标地址(URL)"));
-                break;
+            // case "$icon":
+            //     this.setIcon(prompt("图标地址(URL)"));
+            //     break;
             case "$plugin":
                 this.loadPlugin();
                 break;
@@ -410,7 +443,7 @@ class ICraft {
         xhr.onload = () => {
             this.setStatusText("保存成功");
 
-            console.log("Level Saved. <Game.saveLevel>");
+            Log.info("Level Saved. <Game.saveLevel>");
         };
     }
 
@@ -448,8 +481,8 @@ class ICraft {
 
             this.worldName = mapPath.replace(".cmworld", "");
     
-            console.log("Level Loaded. <Game.loadLevel>");
-            console.log("Level data: ", level);
+            Log.info("Level Loaded. <Game.loadLevel>");
+            Log.info("Level data: ", level);
         };
     }
 
@@ -534,7 +567,7 @@ class ICraft {
             }});
             this.canvas.dispatchEvent(eventData);
     
-            console.log("Setted. icon path: "+ this.iconPath +" <Game.setIcon>");
+            Log.info("Setted. icon path: "+ this.iconPath +" <Game.setIcon>");
         }
     }
 
@@ -551,7 +584,7 @@ class ICraft {
                 scriptElem.src = blobURL;
                 document.body.appendChild(scriptElem);
 
-                console.log("Plugin Loaded as BlobURL. <Game.loadPlugin>");
+                Log.info("Plugin Loaded as BlobURL. <Game.loadPlugin>");
             };
         };
     }
@@ -564,7 +597,7 @@ class ICraft {
             this.renderer.update();
         }, 1000 / this.fps);
 
-        console.log("Setted. fps: "+ this.fps +" <Game.setFps>");
+        Log.info("Setted. fps: "+ this.fps +" <Game.setFps>");
     }
 
     setStatusText(text) {

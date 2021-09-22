@@ -15,6 +15,11 @@ export default class AddServer extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
+        if(this.serverName.length > 15) {
+            alert("服务器名称长度不能超过15个字符");
+            return;
+        }
+
         Axios.post("http://"+ window.location.hostname +":3001/AddServer", "name="+ this.serverName +"&ip="+ this.serverIP, {
             headers: {"Content-Type": "application/x-www-form-urlencoded"}
         }).then((res) => {
@@ -33,7 +38,6 @@ export default class AddServer extends Component {
             <Page title="服务器列表" secondTitle="添加服务器" back="servers" className="form-page">
                 <div className="header-container">
                     <h1>添加服务器</h1>
-                    <p>一个外部ICraft服务器</p>
                 </div>
                 <div className="main-container">
                     <Form onSubmit={(e) => this.handleSubmit(e)}>

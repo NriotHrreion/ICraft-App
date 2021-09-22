@@ -25,7 +25,6 @@ class MutiplayerClientPlugin extends PluginBase {
 
     init() {
         document.getElementById("btn-quit").style.display = "none";
-        document.getElementById("btn-icon").style.display = "none";
         document.getElementById("btn-plugin").style.display = "none";
         document.getElementById("btn-reset").style.display = "none";
 
@@ -106,12 +105,12 @@ class MutiplayerClientPlugin extends PluginBase {
                     playerName: this.playerName
                 }
             }));
-            console.log("Server Connected. <WebSocket.onopen>");
+            Log.info("Server Connected. <WebSocket.onopen>");
 
             this.fetchPlayerList();
         };
         this.ws.onclose = () => {
-            console.log("Server Closed. <WebSocket.onclose>");
+            Log.info("Server Closed. <WebSocket.onclose>");
             if(!this.isError) {
                 alert("服务器已关闭");
                 window.history.back(-1);
@@ -120,7 +119,7 @@ class MutiplayerClientPlugin extends PluginBase {
         this.ws.onerror = () => {
             this.isError = true;
 
-            console.log("Server Error. <WebSocket.onerror>");
+            Log.info("Server Error. <WebSocket.onerror>");
             alert("无法连接到服务器");
             window.history.back(-1);
         };
@@ -199,7 +198,7 @@ class MutiplayerClientPlugin extends PluginBase {
                 token: this.token
             }
         }));
-        console.log("Fetching Player List... <WebSocket.onopen>");
+        Log.info("Fetching Player List... <WebSocket.onopen>");
     }
 }
 

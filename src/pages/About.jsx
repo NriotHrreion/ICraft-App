@@ -1,8 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React, { Component } from "react";
 import Page from "../components/Page";
 import "./TextPage.css";
 
 export default class About extends Component {
+    constructor() {
+        super();
+
+        this.version = "0.5.3[pre]";
+    }
+
     render() {
         return (
             <Page title="关于" back="home" className="text-page">
@@ -12,7 +20,7 @@ export default class About extends Component {
                 </div>
                 <div className="main-container">
                     <h2>游戏</h2>
-                    <p>版本 v0.5.0 - <a href="https://github.com/NriotHrreion/ICraft-App/releases/latest" target="_blank" rel="noreferrer">检查更新</a></p>
+                    <p>版本 - <a href="/version" rel="noreferrer">检查更新</a></p>
                     <p>贴图来自 <a href="https://www.mojang.com">Mojang Studio</a>, 界面设计参考 <a href="https://minecraft.net">Minecraft</a></p>
                     <h2>开发者</h2>
                     <p><code>NriotHrreion</code> - 项目开发 &lt;<b>nriot233@gmail.com</b>&gt;</p>
